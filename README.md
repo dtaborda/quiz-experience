@@ -1,563 +1,658 @@
-# QuizApp — User Histories & Flows
+# QuizApp — Use Cases & Routes (Functional Specification)
 
-## Scope
+## Product Description
 
-This document defines **all user histories related to user state, quiz attempts, and history visualization**.
-It is intended to be used by autonomous agents and developers as a **functional contract**.
+**QuizApp** is a small but realistic educational platform designed to help users **learn, practice, and reinforce AI software development concepts** such as agent design, prompt engineering, workflow automation, and model selection.
 
-Wireframes are defined separately in a YAML file and referenced here by `WF_*` identifiers.
+The product is intentionally scoped to feel **complete and production‑ready**, while remaining simple enough to be extended, improved, or scaled in future iterations.
+
+QuizApp is not just a quiz engine — it is a **learning‑oriented product** that balances:
+
+* assessment (scores, attempts, history)
+* understanding (explanations, review, learning mode)
+* good UX practices (clear navigation, persistence, predictable flows)
+
+The platform supports:
+
+* multiple quiz categories
+* multiple attempts per quiz
+* persistent user progress
+* extensible architecture for future features
+
+This document defines the **functional contract** for developers and autonomous agents implementing the application.
 
 ---
 
-## Core Concepts
+## Product Overview
 
-### User
-An authenticated person using the app on a given device.
+AI Development Quiz is an educational quiz platform focused on AI software development concepts (agents, prompt engineering, workflows, model selection, etc.).
 
-### Quiz
-A collection of questions under a single topic (e.g. "Agent Fundamentals").
+The product must feel:
 
-### Attempt
-A **single completed or in-progress run of a quiz**.
-- One quiz can have **multiple attempts**
-- An attempt is immutable once completed
-- Each attempt has a unique `attemptId`
+* complete
+* coherent
+* extensible
+* ready to scale
 
-### Active Attempt
-The **in-progress** attempt of a quiz.
-- At most **one active attempt per quiz per user**
-- Stored separately from history
-- Can be resumed after navigation or browser refresh
+---
+
+## Global UX & Domain Rules
+
+* The authenticated user’s name is **always visible** in the top bar.
+* A user can have:
+
+  * **at most one active attempt per quiz**
+  * **multiple completed attempts**
+* History shows **only completed attempts**.
+* Filters and sorting **do not change the visual row structure**.
+* URLs represent **resources**, not internal steps.
+* Question progress is **internal state**, not part of the URL.
+* Persistence is handled via `localStorage` (acceptable for the interview).
+
+---
+
+## Authentication
+
+### CU-AUTH-01 — Log in
+
+**As a user**, I want to log in so that my progress can be saved and restored.
+
+* **Route:** `/login`
+* **Precondition:** User is not authenticated
+* **Result:**
+
+  * Session is created in `localStorage`
+  * User state is loaded
+* **Next route:** `/`
+* **Wireframe:** `WF_LOGIN`
+
+---
+
+### CU-AUTH-02 — Log out
+
+**As a user**, I want to log out knowing my data will remain saved.
+
+* **Route:** any
+* **Action:** `Logout`
+* **Result:**
+
+  * Active session is removed
+  * Data remains on the device
+* **Next route:** `/login`
+* **Wireframe:** `WF_LOGOUT_CONFIRM`
+
+---
+
+## Home & Navigation
+
+### CU-HOME-01 — View home (new user)
+
+**As a user**, I want to understand what the app is and what quizzes are available.
+
+* **Route:** `/`
+* **Precondition:** authenticated, no previous attempts
+* **UI:**
+
+  * Brief app description
+  * List of quiz categories
+* **Wireframe:** `WF_HOME_EMPTY`
+
+---
+
+### CU-HOME-02 — View home with progress
+
+**As a user**, I want to see my overall progress and completed quizzes.
+
+* **Route:** `/`
+* **Precondition:** at least one completed attempt
+* **UI:**
+
+  * Per‑quiz summary (attempts, last, best)
+  * Access to history
+* **Wireframe:** `WF_HOME_WITH_HISTORY`
+
+---
+
+### CU-HOME-03 — Resume in‑progress quiz
+
+**As a user**, I want to continue a quiz I left unfinished.
+
+* **Route:** `/`
+* **Precondition:** active attempt exists
+* **Actions:** `Resume` | `Restart`
+* **Next route:** `/quiz/:quizId`
+* **Wireframe:** `WF_HOME_WITH_CONTINUE`
+
+---
+
+## Quiz Experience
+
+### CU-QUIZ-01 — Start quiz
+
+**As a user**, I want to start a quiz from scratch.
+
+* **Route:** `/quiz/:quizId`
+* **Entry:** Home
+* **Result:** active attempt is created
+* **Wireframe:** `WF_QUIZ_BEFORE_ANSWER`
+
+---
+
+### CU-QUIZ-02 — Answer question
+
+**As a user**, I want to answer a question and receive immediate feedback.
+
+* **Route:** `/quiz/:quizId`
+* **Action:** select option and submit
+* **Result:**
+
+  * correct / incorrect feedback
+  * explanation displayed
+* **Wireframes:**
+
+  * `WF_QUIZ_AFTER_ANSWER`
+  * `WF_QUIZ_BEFORE_ANSWER` (next question)
+
+---
+
+### CU-QUIZ-03 — View progress
+
+**As a user**, I want to know which question I am on.
+
+* **Indicator:** "Question X of Y"
+* **Wireframe:** `WF_QUIZ_BEFORE_ANSWER`
+
+---
+
+### CU-QUIZ-04 — Finish quiz
+
+**As a user**, I want to finish the quiz and see my results.
+
+* **Route:** `/quiz/:quizId`
+* **Action:** complete last question
+* **Result:**
+
+  * active attempt becomes completed
+* **Next route:** `/quiz/:quizId/results`
+* **Wireframes:** `WF_QUIZ_LAST_FINISH` → `WF_RESULTS`
+
+---
+
+## Results & Review
+
+### CU-RESULT-01 — View results
+
+**As a user**, I want to see my score and performance feedback.
+
+* **Route:** `/quiz/:quizId/results`
+* **UI:**
+
+  * score
+  * percentage
+  * motivational message
+* **Wireframe:** `WF_RESULTS`
+
+---
+
+### CU-RESULT-02 — Review answers
+
+**As a user**, I want to review my answers to learn from them.
+
+* **Route:** `/history/:attemptId`
+* **Entry:** results or history
+* **Wireframe:** `WF_REVIEW`
+
+---
+
+### CU-RESULT-03 — Retake quiz
+
+**As a user**, I want to attempt the quiz again.
+
+* **Route:** `/quiz/:quizId`
+* **Result:** new active attempt
+* **Wireframe:** `WF_QUIZ_BEFORE_ANSWER`
+
+---
+
+## History
+
+### CU-HISTORY-01 — View history
+
+**As a user**, I want to see all my past attempts.
+
+* **Route:** `/history`
+* **UI:** flat list of attempts
+* **Wireframe:** `WF_HISTORY`
+
+---
+
+### CU-HISTORY-02 — Filter history
+
+**As a user**, I want to filter attempts by quiz.
+
+* **Route:** `/history`
+* **Result:** same layout, fewer rows
+* **Wireframe:** `WF_HISTORY`
+
+---
+
+### CU-HISTORY-03 — View attempt details
+
+**As a user**, I want to view a specific attempt in detail.
+
+* **Route:** `/history/:attemptId`
+* **Wireframe:** `WF_ATTEMPT_DETAILS`
+
+---
+
+## Optional / Extensible Features
+
+### CU-OPT-01 — Leaderboard
+
+* Ranking of top scores
+* **Wireframe:** `WF_LEADERBOARD`
+
+---
+
+### CU-OPT-02 — Daily / weekly challenge
+
+* Highlighted access from Home
+* **Wireframe:** `WF_DAILY_CHALLENGE`
+
+---
+
+### CU-OPT-03 — Learning mode
+
+**As a user**, I want to learn the concept before answering the question, so I can understand the topic rather than only being evaluated.
+
+#### Functional scope
+
+Learning Mode is a variant of the normal quiz flow focused on guided learning.
+
+* It is not a separate quiz
+* It does not remove evaluation
+* It does not reveal the correct answer in advance
+
+The main difference is **the order in which information is shown**.
+
+#### Behavior
+
+* The mode is selected **before starting the quiz** (e.g. from Home or a pre‑start screen)
+* The selected mode is stored in the attempt (`attempt.mode = "learn" | "normal"`)
+* It applies to **all questions in the attempt**
+
+#### Per‑question flow
+
+1. A **conceptual explanation block** is shown first
+2. The explanation provides context but **does not indicate the correct answer**
+3. The user explicitly clicks **"View question"** or **"Continue"**
+4. The question and options are displayed
+5. The user answers and receives normal feedback
+
+#### User sees
+
+* A header indicating *Learning Mode*
+* An educational text block before each question
+* A clear CTA to proceed
+
+#### Persistence
+
+* The selected mode is saved in the attempt
+
+* History, score, and overall behavior **do not change**
+
+* **Wireframe:** `WF_LEARN_MODE`
+
+---
+
+### CU-OPT-04 — Randomized questions
+
+**As a user**, I want the order of questions to change each time I take a quiz, to avoid memorizing answers by position.
+
+#### Functional scope
+
+* Each quiz has a **fixed set of questions** (e.g. 5)
+* **No questions are added or removed**
+* **Questions are not mixed across quizzes**
+
+The feature only **randomizes the order of questions per attempt**.
+
+#### Behavior
+
+* The random order is generated **when the attempt is created**
+* The order differs between attempts but is **stable within the same attempt**
+* The order is persisted as part of the attempt
+
+Example:
+
+* Attempt 1: Q1 → Q2 → Q3 → Q4 → Q5
+* Attempt 2: Q3 → Q1 → Q5 → Q2 → Q4
+
+#### Persistence
+
+* Order is stored in the attempt (e.g. `questionOrder[]`)
+* Refreshing the browser does not change the order
+
+#### UX
+
+* The UI does not change
+* Benefit: higher replayability and more honest evaluation
+
+---
+
+### CU-OPT-05 — Create your own quiz (extensible / future phase)
+
+**As a user**, I want to create my own quiz to evaluate specific knowledge or share custom educational content.
+
+> ⚠️ In the first version of the product, this feature is **NOT operational**. Its functional scope and UX are defined only as **preparation for future iterations**, with no active business logic.
+
+---
+
+#### Goal
+
+Prepare the application to support user‑generated quizzes in the future without compromising the current architecture or introducing technical debt.
+
+---
+
+#### Functional scope — Current phase (placeholder)
+
+In this version:
+
+* Users cannot actually create quizzes
+* No user‑generated content is persisted
+* Existing quizzes cannot be modified
+
+The feature is limited to an **informational screen** that:
+
+* explains what the feature will be
+* communicates that it is coming soon
+* reinforces the vision of an extensible platform
+
+---
+
+#### Current behavior
+
+* Users access **"Create your own quiz"** from:
+
+  * Home
+  * Global navigation
+
+* The route is accessible but not editable
+
+* **Route:** `/create-quiz`
+
+---
+
+#### User sees
+
+* Clear title: "Create your own quiz"
+* Status message: *"Coming soon"*
+* Brief explanation of the feature’s goal:
+
+  * create categories
+  * add questions
+  * define correct answers
+* Passive CTA:
+
+  * "Back to Home"
+  * (optional) "Notify me when available"
+
+---
+
+#### UX / Design
+
+* No active forms
+* No validations
+* No save buttons
+* The screen does **not mislead** the user or create false expectations
+
+---
+
+#### Expected future scope (DO NOT IMPLEMENT now)
+
+This section defines **intent**, not current tasks.
+
+Future versions may include:
+
+* Creating a quiz with:
+
+  * title
+  * description
+  * category
+* Adding questions:
+
+  * text
+  * multiple options
+  * correct answer
+  * explanation
+* Quiz preview
+* Running the user‑created quiz
+* Separation between official quizzes and user quizzes
+
+---
+
+#### Architectural impact (current)
+
+* None at runtime
+* Only required:
+
+  * defined route
+  * existing wireframe
+  * placeholder component
+
+---
+
+* **Wireframe:** `WF_CREATE_QUIZ_PLACEHOLDER`
+
+---
+
+## Acceptance Criteria
+
+* Users can start, complete, and retake quizzes without friction.
+* Progress persists across sessions.
+* UX is clear, consistent, and predictable.
+* Architecture supports future expansion without major refactors.
+
+---
+
+**This document is the functional source of truth for the product.**
+
+---
+
+## Wireframe Reference Index
+
+This section maps each functional area to its corresponding wireframe identifier. Full wireframe definitions are maintained separately in `wireframes.yaml`.
+
+### Global
+
+* `WF_GLOBAL_NAV` — Global navigation bar (top-level layout)
+
+### Authentication
+
+* `WF_LOGIN` — Login screen
+* `WF_LOGOUT_CONFIRM` — Logout confirmation
+
+### Home
+
+* `WF_HOME_EMPTY` — Home view for new users (no history)
+* `WF_HOME_WITH_HISTORY` — Home view with completed attempts
+* `WF_HOME_WITH_CONTINUE` — Home view with active attempt to resume
+
+### Quiz Flow
+
+* `WF_QUIZ_BEFORE_ANSWER` — Question view before answering
+* `WF_QUIZ_AFTER_ANSWER` — Feedback after answering a question
+* `WF_QUIZ_LAST_FINISH` — Final question completion state
+
+### Results & Review
+
+* `WF_RESULTS` — Quiz results summary
+* `WF_REVIEW` — Review answers for a completed attempt
 
 ### History
-A **list of completed attempts only**.
-- Partial/in-progress attempts are never shown in history
-- History is user-scoped and persistent via localStorage
 
----
+* `WF_HISTORY` — Global history list (supports filtering)
+* `WF_ATTEMPT_DETAILS` — Detailed view of a single attempt
 
-## Global UX Rules
+### Optional / Extensible
 
-- Logged-in user name is always visible in the top bar
-- History rows never change structure
-- Filters and sorting only affect dataset visibility/order
-- URLs identify **resources**, not steps
-- Questions are internal state, not route params
-
----
-
-# USER HISTORIES
-
----
-
-## UH-01 — User logs in and restores previous state
-
-**As a user**,  
-I want to log in and see my previous progress,  
-so that I can continue where I left off.
-
-### Flow
-1. User logs in
-2. App loads user-scoped data from localStorage
-3. If active attempts exist → show “Continue”
-4. If completed attempts exist → show summaries
+* `WF_LEADERBOARD` — Leaderboard view
+* `WF_DAILY_CHALLENGE` — Daily / weekly challenge entry point
+* `WF_LEARN_MODE` — Learning Mode (explanation before question)
+* `WF_CREATE_QUIZ_PLACEHOLDER` — Create your own quiz (placeholder)
 
 ### Wireframes
-- Login: `WF_LOGIN`
-- Home with continue: `WF_HOME_WITH_CONTINUE`
-- Home with history summary: `WF_HOME_WITH_HISTORY`
-
----
-
-## UH-02 — User sees quizzes for the first time
-
-**As a user**,  
-I want to see available quizzes,  
-so that I can start learning.
-
-### Preconditions
-- User authenticated
-- No attempts yet
-
-### Result
-- Quiz catalog only
-- No history or continue section
-
-### Wireframe
-- `WF_HOME_EMPTY`
-
----
-
-## UH-03 — User starts a quiz for the first time
-
-**As a user**,  
-I want to start a quiz,  
-so that I can answer questions step by step.
-
-### Flow
-1. User clicks “Start Quiz”
-2. Active attempt is created
-3. First question is shown
-
-### Wireframe
-- Quiz (before answer): `WF_QUIZ_BEFORE_ANSWER`
-
----
-
-## UH-04 — User resumes an in-progress quiz
-
-**As a user**,  
-I want to resume a quiz I didn’t finish,  
-so that I don’t lose my progress.
-
-### Flow
-1. User returns to Home
-2. App detects active attempt
-3. User clicks “Resume”
-4. Quiz opens at correct question index
-
-### Wireframes
-- Home with continue: `WF_HOME_WITH_CONTINUE`
-- Quiz resume confirmation (optional): `WF_QUIZ_RESUME_OR_RESET`
-- Quiz (before answer): `WF_QUIZ_BEFORE_ANSWER`
-
----
-
-## UH-05 — User answers a question and sees feedback
-
-**As a user**,  
-I want to know immediately if my answer is correct,  
-so that I can learn from mistakes.
-
-### Flow
-1. User submits an answer
-2. System evaluates correctness
-3. Explanation is shown
-4. User proceeds to next question
-
-### Wireframes
-- After answer: `WF_QUIZ_AFTER_ANSWER`
-- Next question: `WF_QUIZ_BEFORE_ANSWER`
-
----
-
-## UH-06 — User navigates away during a quiz
-
-**As a user**,  
-I want to leave the quiz and come back later,  
-so that I can continue without losing progress.
-
-### Flow
-1. User clicks “Back Home”
-2. Active attempt is preserved
-3. Home shows “Continue”
-
-### Wireframes
-- Quiz: `WF_QUIZ_BEFORE_ANSWER`
-- Home with continue: `WF_HOME_WITH_CONTINUE`
-
----
-
-## UH-07 — User finishes a quiz
-
-**As a user**,  
-I want to complete the quiz and see my results,  
-so that I know how I performed.
-
-### Flow
-1. User answers last question
-2. Active attempt is finalized
-3. Attempt is added to history
-4. Results screen is shown
-
-### Wireframes
-- Last question: `WF_QUIZ_LAST_FINISH`
-- Results: `WF_RESULTS`
-
----
-
-## UH-08 — User reviews answers of a completed attempt
-
-**As a user**,  
-I want to review all my answers,  
-so that I can understand what I got right or wrong.
-
-### Flow
-1. User clicks “Review Answers”
-2. System loads the completed attempt by `attemptId`
-3. Full question-by-question review is shown
-
-### Wireframe
-- Review: `WF_REVIEW`
-
----
-
-## UH-09 — User retakes a quiz after finishing it
-
-**As a user**,  
-I want to retake a quiz,  
-so that I can improve my score.
-
-### Rules
-- Previous attempts remain in history
-- A new active attempt is created
-- Progress starts from question 1
-
-### Wireframes
-- Results: `WF_RESULTS`
-- Quiz (first question): `WF_QUIZ_BEFORE_ANSWER`
-
----
-
-## UH-10 — User views full history of attempts
-
-**As a user**,  
-I want to see all my past quiz attempts,  
-so that I can track my progress over time.
-
-### Result
-- Flat list of completed attempts
-- Each row represents one attempt
-
-### Wireframe
-- History list: `WF_HISTORY`
-
----
-
-## UH-11 — User filters history by quiz
-
-**As a user**,  
-I want to filter my history by quiz,  
-so that I can see how many times I completed a specific quiz.
-
-### Rules
-- Same row structure
-- Dataset is reduced only
-
-### Wireframe
-- History list (filtered): `WF_HISTORY`
-
----
-
-## UH-12 — User views attempt details from history
-
-**As a user**,  
-I want to open a specific attempt,  
-so that I can inspect its details.
-
-### Flow
-1. User clicks “View” on a history row
-2. Attempt details are loaded by `attemptId`
-
-### Wireframe
-- Attempt details: `WF_ATTEMPT_DETAILS`
-
----
-
-## UH-13 — User sees empty history state
-
-**As a user**,  
-I want clear feedback when I have no history,  
-so that I know what to do next.
-
-### Wireframe
-- Empty history: `WF_HISTORY_EMPTY`
-
----
-
-## UH-14 — User refreshes the browser during a quiz
-
-**As a user**,  
-I want my progress to be restored after refresh,  
-so that accidental reloads don’t lose my work.
-
-### Behavior
-- Active attempt is restored from localStorage
-- Quiz opens at the correct question
-
-### Wireframe
-- Quiz (restored): `WF_QUIZ_BEFORE_ANSWER`
-
----
-
-## UH-15 — User logs out
-
-**As a user**,  
-I want to log out safely,  
-knowing my progress will still be there when I return.
-
-### Result
-- Session cleared
-- User data remains in localStorage
-
-### Wireframe
-- Logout confirmation: `WF_LOGOUT_CONFIRM`
-
----
-
-## Notes for Agents
-
-- History is **append-only**
-- Attempts are immutable once completed
-- Active attempts are ephemeral
-- Never mix partial attempts into history
-- Always resolve UI state from localStorage + user session
-
-This document is the **single source of truth** for user behavior related to history and attempts.
-
----
-
-# Wireframes (YAML)
-See the YAML block below. Each use case references a `WF_*` id.
 
 ```yaml
 wireframes:
-  WF_BASE: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | [Home] [History]                                 |
-    +--------------------------------------------------+
-    | (Screen Content)                                 |
-    +--------------------------------------------------+
 
-  WF_LOGIN: |
-    +--------------------------------------------------+
-    | QuizApp                                          |
-    +--------------------------------------------------+
-    | Sign In                                          |
-    +--------------------------------------------------+
-    | Email:    [________________________]             |
-    | Password: [________________________]             |
-    |                                                  |
-    | [ Sign In ]                                      |
-    +--------------------------------------------------+
+  WF_GLOBAL_NAV:
+    description: Global navigation layout shared across the app
+    layout: |
+      +--------------------------------------------------+
+      | QuizApp        Hi, {{UserName}}        [Logout]  |
+      +--------------------------------------------------+
+      | [ Home ] [ History ] [ Leaderboard ] [ Create ] |
+      +--------------------------------------------------+
 
-  WF_LOGOUT_CONFIRM: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Log out?                                         |
-    | You'll be logged out. Data stays on this device. |
-    |                                                  |
-    | [ Log out ]   [ Cancel ]                         |
-    +--------------------------------------------------+
+  WF_HOME:
+    description: Home screen with quiz categories
+    layout: |
+      +--------------------------------------------------+
+      | QuizApp        Hi, {{UserName}}        [Logout]  |
+      +--------------------------------------------------+
+      | Available Quizzes                                |
+      | ------------------------------------------------ |
+      | [ Agent Fundamentals ]        (Start Quiz)       |
+      | [ Prompt Engineering ]        (Start Quiz)       |
+      | [ Model Selection ]           (Start Quiz)       |
+      +--------------------------------------------------+
 
-  WF_HOME_EMPTY: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Home                                             |
-    +--------------------------------------------------+
-    | Available Quizzes                                |
-    | ------------------------------------------------ |
-    | Agent Fundamentals (5 questions)                  |
-    | [ Start Quiz ]                                   |
-    |                                                  |
-    | Prompt Engineering (5 questions)                  |
-    | [ Start Quiz ]                                   |
-    +--------------------------------------------------+
+  WF_QUIZ_BEFORE_ANSWER:
+    description: Quiz question before answering
+    layout: |
+      +--------------------------------------------------+
+      | QuizApp        Hi, {{UserName}}        [Logout]  |
+      +--------------------------------------------------+
+      | Agent Fundamentals                               |
+      | Question 3 of 5                                  |
+      +--------------------------------------------------+
+      | What is the primary purpose of an AI agent?      |
+      |                                                  |
+      | ( ) To replace human workers                     |
+      | ( ) To autonomously perform tasks                |
+      | ( ) To store large amounts of data               |
+      | ( ) To create visual interfaces                  |
+      |                                                  |
+      | [ Submit Answer ]                                |
+      +--------------------------------------------------+
 
-  WF_HOME_WITH_HISTORY: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Home                                             |
-    +--------------------------------------------------+
-    | Quizzes                                          |
-    | ------------------------------------------------ |
-    | Agent Fundamentals                               |
-    | Attempts: 3  Last: 80%  Best: 100%               |
-    | [ Start ]  [ History ]                           |
-    |                                                  |
-    | Prompt Engineering                               |
-    | Attempts: 1  Last: 60%  Best: 60%                |
-    | [ Start ]  [ History ]                           |
-    |                                                  |
-    | Recent Attempts (latest first)                   |
-    | ------------------------------------------------ |
-    | Agent Fundamentals   80% (4/5)   Jan 28 09:12     |
-    | Prompt Engineering   60% (3/5)   Jan 27 18:40     |
-    | [ View All History ]                             |
-    +--------------------------------------------------+
+  WF_QUIZ_AFTER_ANSWER:
+    description: Quiz question with feedback
+    layout: |
+      +--------------------------------------------------+
+      | Agent Fundamentals                               |
+      | Question 3 of 5                                  |
+      +--------------------------------------------------+
+      | ✅ Correct                                       |
+      | AI agents are designed to autonomously perform   |
+      | tasks and make decisions based on goals.         |
+      |                                                  |
+      | [ Next Question ]                                |
+      +--------------------------------------------------+
 
-  WF_HOME_WITH_CONTINUE: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Home                                             |
-    +--------------------------------------------------+
-    | Continue                                         |
-    | ------------------------------------------------ |
-    | Agent Fundamentals                               |
-    | Progress: Question 3 of 5                        |
-    | [ Resume ]  [ Start Over ]                       |
-    |                                                  |
-    | Quizzes                                          |
-    | ------------------------------------------------ |
-    | Agent Fundamentals  [ Start ] [ History ]         |
-    | Prompt Engineering  [ Start ] [ History ]         |
-    +--------------------------------------------------+
+  WF_RESULTS:
+    description: Quiz results screen
+    layout: |
+      +--------------------------------------------------+
+      | Quiz Results                                     |
+      +--------------------------------------------------+
+      | Score: 4 / 5   (80%)                              |
+      |                                                  |
+      | 🎉 Great job! You're getting there!              |
+      |                                                  |
+      | [ Review Answers ]   [ Retake Quiz ]             |
+      +--------------------------------------------------+
 
-  WF_QUIZ_RESUME_OR_RESET: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Agent Fundamentals                               |
-    +--------------------------------------------------+
-    | We found an in-progress attempt.                 |
-    | Progress: Question 3 of 5                        |
-    |                                                  |
-    | [ Resume Attempt ]  [ Start Over ]  [ Back Home ] |
-    +--------------------------------------------------+
+  WF_HISTORY:
+    description: Global history list (with or without filters)
+    layout: |
+      +--------------------------------------------------+
+      | Quiz History                                     |
+      +--------------------------------------------------+
+      | Filter by Quiz: [ All ▼ ]                        |
+      | ------------------------------------------------ |
+      | Agent Fundamentals | 80% | Jan 12 | [ View ]     |
+      | Agent Fundamentals | 60% | Jan 10 | [ View ]     |
+      | Prompt Engineering | 90% | Jan 08 | [ View ]     |
+      +--------------------------------------------------+
 
-  WF_QUIZ_BEFORE_ANSWER: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Agent Fundamentals                               |
-    | Question 3 of 5                                  |
-    +--------------------------------------------------+
-    | What is 'context window' in relation to AI?      |
-    |                                                  |
-    | ( ) Option A                                     |
-    | ( ) Option B                                     |
-    | ( ) Option C                                     |
-    | ( ) Option D                                     |
-    |                                                  |
-    | [ Submit Answer ]                 [ Back Home ]   |
-    +--------------------------------------------------+
+  WF_ATTEMPT_DETAILS:
+    description: Detailed review of a completed attempt
+    layout: |
+      +--------------------------------------------------+
+      | Attempt Review                                   |
+      +--------------------------------------------------+
+      | Quiz: Agent Fundamentals                         |
+      | Score: 4 / 5                                     |
+      | ------------------------------------------------ |
+      | Q1 ✔ Correct                                     |
+      | Q2 ✔ Correct                                     |
+      | Q3 ✖ Incorrect                                  |
+      | Q4 ✔ Correct                                     |
+      | Q5 ✔ Correct                                     |
+      |                                                  |
+      | [ Back to History ]                              |
+      +--------------------------------------------------+
 
-  WF_QUIZ_AFTER_ANSWER: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Agent Fundamentals                               |
-    | Question 3 of 5                                  |
-    +--------------------------------------------------+
-    | Your answer: Option C                ❌ Incorrect |
-    | Correct answer: Option B             ✅ Correct   |
-    |                                                  |
-    | Explanation:                                     |
-    | (short explanation text...)                      |
-    |                                                  |
-    | [ Next Question ]                [ Back Home ]    |
-    +--------------------------------------------------+
+  WF_LEARN_MODE:
+    description: Learn Mode — explanation before answering
+    layout: |
+      +--------------------------------------------------+
+      | QuizApp        Hi, {{UserName}}        [Logout]  |
+      +--------------------------------------------------+
+      | Agent Fundamentals                               |
+      | Question 3 of 5   |  Learn Mode                  |
+      +--------------------------------------------------+
+      | 📘 Before you answer                             |
+      | ------------------------------------------------ |
+      | The context window defines how much information  |
+      | an AI model can process in a single interaction. |
+      | Understanding this limit is key for designing    |
+      | effective prompts and agents.                    |
+      |                                                  |
+      | [ View Question ]                                |
+      +--------------------------------------------------+
 
-  WF_QUIZ_LAST_FINISH: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Agent Fundamentals                               |
-    | Question 5 of 5                                  |
-    +--------------------------------------------------+
-    | (Question + options)                             |
-    | (After answer shows feedback + explanation)      |
-    |                                                  |
-    | [ Finish Quiz ]                 [ Back Home ]     |
-    +--------------------------------------------------+
+      (Click)
 
-  WF_RESULTS: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Results — Agent Fundamentals                      |
-    +--------------------------------------------------+
-    | This attempt:                                    |
-    | Score: 4 / 5  (80%)                              |
-    | Feedback: "Good job!"                            |
-    |                                                  |
-    | So far: Attempts: 3  Best: 100%  Previous: 60%    |
-    |                                                  |
-    | [ Review Answers ]  [ Retake Quiz ]  [ Back Home ]|
-    +--------------------------------------------------+
+      +--------------------------------------------------+
+      | What is a "context window" in AI models?         |
+      |                                                  |
+      | ( ) The browser window                           |
+      | ( ) The maximum amount of text processed         |
+      | ( ) The training time                            |
+      | ( ) The model UI                                 |
+      |                                                  |
+      | [ Submit Answer ]                                |
+      +--------------------------------------------------+
 
-  WF_REVIEW: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Review — Agent Fundamentals                       |
-    +--------------------------------------------------+
-    | Attempt: Jan 28 09:12   Score: 80% (4/5)         |
-    |                                                  |
-    | Q1 ✅ Correct                                     |
-    | Q2 ✅ Correct                                     |
-    | Q3 ❌ Incorrect                                   |
-    | Q4 ✅ Correct                                     |
-    | Q5 ✅ Correct                                     |
-    |                                                  |
-    | [ Retake Quiz ]  [ Back to Results ]  [ Back Home]|
-    +--------------------------------------------------+
+  WF_CREATE_QUIZ_PLACEHOLDER:
+    description: Placeholder screen for future quiz creation
+    layout: |
+      +--------------------------------------------------+
+      | Create Your Own Quiz                             |
+      +--------------------------------------------------+
+      | 🚧 Coming Soon                                   |
+      | ------------------------------------------------ |
+      | This feature will allow you to:                  |
+      | - Create custom quiz categories                  |
+      | - Add your own questions and answers             |
+      | - Share quizzes with others                      |
+      |                                                  |
+      | Stay tuned for future updates.                   |
+      |                                                  |
+      | [ Back to Home ]                                 |
+      +--------------------------------------------------+
 
-  WF_HISTORY: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | History                                           |
-    +--------------------------------------------------+
-    | Filter by quiz: [ All Quizzes ▾ ]                 |
-    | Sort by:        [ Newest first ▾ ]                |
-    |                                                  |
-    | ------------------------------------------------ |
-    | | Quiz               | Score     | Date   | Act | |
-    | ------------------------------------------------ |
-    | | Agent Fundamentals | 80% (4/5) | Jan 28 |View | |
-    | | Prompt Engineering | 60% (3/5) | Jan 27 |View | |
-    | | Agent Fundamentals |100% (5/5) | Jan 25 |View | |
-    | ------------------------------------------------ |
-    | Showing 3 attempts                               |
-    +--------------------------------------------------+
-
-  WF_ATTEMPT_DETAILS: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Attempt Details                                  |
-    +--------------------------------------------------+
-    | Quiz: Agent Fundamentals                         |
-    | Completed: Jan 28 09:12                          |
-    | Score: 80% (4/5)                                 |
-    |                                                  |
-    | Q1 ✅  Q2 ✅  Q3 ❌  Q4 ✅  Q5 ✅                   |
-    |                                                  |
-    | [ Review Answers ] [ Retake Quiz ] [ Back History]|
-    +--------------------------------------------------+
-
-  WF_HISTORY_EMPTY: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | History                                           |
-    +--------------------------------------------------+
-    | Filter by quiz: [ All Quizzes ▾ ]                 |
-    | Sort by:        [ Newest first ▾ ]                |
-    |                                                  |
-    | You haven't completed any quizzes yet.            |
-    | Start a quiz to see your history here.            |
-    |                                                  |
-    | [ Back Home ]                                     |
-    +--------------------------------------------------+
-
-  WF_QUIZ_NOT_FOUND: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Quiz not found                                    |
-    +--------------------------------------------------+
-    | We couldn't find this quiz.                       |
-    |                                                  |
-    | [ Back Home ]                                     |
-    +--------------------------------------------------+
-
-  WF_RETAKE_CONFIRM: |
-    +--------------------------------------------------+
-    | QuizApp        Hello, {{UserName}}      [Logout] |
-    +--------------------------------------------------+
-    | Start over?                                       |
-    +--------------------------------------------------+
-    | This will reset your current progress.            |
-    | Completed attempts remain in History.             |
-    |                                                  |
-    | [ Start Over ]  [ Cancel ]                        |
-    +--------------------------------------------------+
 ```
