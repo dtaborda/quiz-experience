@@ -247,9 +247,44 @@ The product must feel:
 
 ## Optional / Extensible Features
 
-### CU-OPT-01 — Leaderboard
+### CU-OPT-01 — Leaderboard (local)
 
-* Ranking of top scores
+**As a user**, I want to view a leaderboard of top scores so I can track my best performance and compare my attempts over time.
+
+> ⚠️ Because persistence is scoped to the browser for this challenge, the leaderboard is **local to the device** (derived from `localStorage`) and does **not** represent a global ranking across different users/devices.
+
+#### Functional scope
+
+* The leaderboard is a **derived view** of **completed attempts**.
+* It does not introduce new persisted entities.
+* It can be displayed:
+
+  * **per quiz** (recommended default)
+  * optionally across all quizzes (same row layout)
+
+#### Behavior
+
+* **Route:** `/leaderboard`
+* **Data source:** completed attempts stored in `localStorage`
+* Sorting:
+
+  1. score percentage (DESC)
+  2. completion date/time (ASC) as a tie-breaker
+
+#### Display rules
+
+* Only attempts with `status = "completed"` are shown.
+* Each row represents a **single attempt** (multiple attempts by the same user can appear).
+* The UI includes a small note: *"Local results on this device"*.
+
+#### User actions
+
+* Filter by quiz using a dropdown (default: All or a specific quiz).
+
+* Click **View** to open attempt details.
+
+* **Attempt details route:** `/history/:attemptId`
+
 * **Wireframe:** `WF_LEADERBOARD`
 
 ---
@@ -500,159 +535,3 @@ This section maps each functional area to its corresponding wireframe identifier
 * `WF_DAILY_CHALLENGE` — Daily / weekly challenge entry point
 * `WF_LEARN_MODE` — Learning Mode (explanation before question)
 * `WF_CREATE_QUIZ_PLACEHOLDER` — Create your own quiz (placeholder)
-
-### Wireframes
-
-```yaml
-wireframes:
-
-  WF_GLOBAL_NAV:
-    description: Global navigation layout shared across the app
-    layout: |
-      +--------------------------------------------------+
-      | QuizApp        Hi, {{UserName}}        [Logout]  |
-      +--------------------------------------------------+
-      | [ Home ] [ History ] [ Leaderboard ] [ Create ] |
-      +--------------------------------------------------+
-
-  WF_HOME:
-    description: Home screen with quiz categories
-    layout: |
-      +--------------------------------------------------+
-      | QuizApp        Hi, {{UserName}}        [Logout]  |
-      +--------------------------------------------------+
-      | Available Quizzes                                |
-      | ------------------------------------------------ |
-      | [ Agent Fundamentals ]        (Start Quiz)       |
-      | [ Prompt Engineering ]        (Start Quiz)       |
-      | [ Model Selection ]           (Start Quiz)       |
-      +--------------------------------------------------+
-
-  WF_QUIZ_BEFORE_ANSWER:
-    description: Quiz question before answering
-    layout: |
-      +--------------------------------------------------+
-      | QuizApp        Hi, {{UserName}}        [Logout]  |
-      +--------------------------------------------------+
-      | Agent Fundamentals                               |
-      | Question 3 of 5                                  |
-      +--------------------------------------------------+
-      | What is the primary purpose of an AI agent?      |
-      |                                                  |
-      | ( ) To replace human workers                     |
-      | ( ) To autonomously perform tasks                |
-      | ( ) To store large amounts of data               |
-      | ( ) To create visual interfaces                  |
-      |                                                  |
-      | [ Submit Answer ]                                |
-      +--------------------------------------------------+
-
-  WF_QUIZ_AFTER_ANSWER:
-    description: Quiz question with feedback
-    layout: |
-      +--------------------------------------------------+
-      | Agent Fundamentals                               |
-      | Question 3 of 5                                  |
-      +--------------------------------------------------+
-      | ✅ Correct                                       |
-      | AI agents are designed to autonomously perform   |
-      | tasks and make decisions based on goals.         |
-      |                                                  |
-      | [ Next Question ]                                |
-      +--------------------------------------------------+
-
-  WF_RESULTS:
-    description: Quiz results screen
-    layout: |
-      +--------------------------------------------------+
-      | Quiz Results                                     |
-      +--------------------------------------------------+
-      | Score: 4 / 5   (80%)                              |
-      |                                                  |
-      | 🎉 Great job! You're getting there!              |
-      |                                                  |
-      | [ Review Answers ]   [ Retake Quiz ]             |
-      +--------------------------------------------------+
-
-  WF_HISTORY:
-    description: Global history list (with or without filters)
-    layout: |
-      +--------------------------------------------------+
-      | Quiz History                                     |
-      +--------------------------------------------------+
-      | Filter by Quiz: [ All ▼ ]                        |
-      | ------------------------------------------------ |
-      | Agent Fundamentals | 80% | Jan 12 | [ View ]     |
-      | Agent Fundamentals | 60% | Jan 10 | [ View ]     |
-      | Prompt Engineering | 90% | Jan 08 | [ View ]     |
-      +--------------------------------------------------+
-
-  WF_ATTEMPT_DETAILS:
-    description: Detailed review of a completed attempt
-    layout: |
-      +--------------------------------------------------+
-      | Attempt Review                                   |
-      +--------------------------------------------------+
-      | Quiz: Agent Fundamentals                         |
-      | Score: 4 / 5                                     |
-      | ------------------------------------------------ |
-      | Q1 ✔ Correct                                     |
-      | Q2 ✔ Correct                                     |
-      | Q3 ✖ Incorrect                                  |
-      | Q4 ✔ Correct                                     |
-      | Q5 ✔ Correct                                     |
-      |                                                  |
-      | [ Back to History ]                              |
-      +--------------------------------------------------+
-
-  WF_LEARN_MODE:
-    description: Learn Mode — explanation before answering
-    layout: |
-      +--------------------------------------------------+
-      | QuizApp        Hi, {{UserName}}        [Logout]  |
-      +--------------------------------------------------+
-      | Agent Fundamentals                               |
-      | Question 3 of 5   |  Learn Mode                  |
-      +--------------------------------------------------+
-      | 📘 Before you answer                             |
-      | ------------------------------------------------ |
-      | The context window defines how much information  |
-      | an AI model can process in a single interaction. |
-      | Understanding this limit is key for designing    |
-      | effective prompts and agents.                    |
-      |                                                  |
-      | [ View Question ]                                |
-      +--------------------------------------------------+
-
-      (Click)
-
-      +--------------------------------------------------+
-      | What is a "context window" in AI models?         |
-      |                                                  |
-      | ( ) The browser window                           |
-      | ( ) The maximum amount of text processed         |
-      | ( ) The training time                            |
-      | ( ) The model UI                                 |
-      |                                                  |
-      | [ Submit Answer ]                                |
-      +--------------------------------------------------+
-
-  WF_CREATE_QUIZ_PLACEHOLDER:
-    description: Placeholder screen for future quiz creation
-    layout: |
-      +--------------------------------------------------+
-      | Create Your Own Quiz                             |
-      +--------------------------------------------------+
-      | 🚧 Coming Soon                                   |
-      | ------------------------------------------------ |
-      | This feature will allow you to:                  |
-      | - Create custom quiz categories                  |
-      | - Add your own questions and answers             |
-      | - Share quizzes with others                      |
-      |                                                  |
-      | Stay tuned for future updates.                   |
-      |                                                  |
-      | [ Back to Home ]                                 |
-      +--------------------------------------------------+
-
-```
