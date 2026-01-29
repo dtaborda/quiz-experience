@@ -1,5 +1,22 @@
 # QuizApp — Use Cases & Routes (Functional Specification)
 
+## Architecture & Technical Decisions
+
+This project is structured as a **monorepo** using **pnpm workspaces** and **Turborepo**, with a clear separation between frontend, backend, shared contracts, and infrastructure.
+
+The architecture, tooling choices, development workflow (dev, build, Docker), API boundaries, persistence strategy, and testing approach are fully documented here:
+
+👉 **`docs/architecture.md`**
+
+That document is the **source of truth** for:
+- monorepo structure and rationale
+- frontend and backend stack
+- Docker and proxy strategy (no CORS)
+- AI-assisted development workflow
+- testing strategy and Definition of Done
+
+All implementation decisions and agent instructions must align with that document.
+
 ## Product Description
 
 **QuizApp** is a small but realistic educational platform designed to help users **learn, practice, and reinforce AI software development concepts** such as agent design, prompt engineering, workflow automation, and model selection.
