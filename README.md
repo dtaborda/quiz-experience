@@ -6,7 +6,7 @@ This project is structured as a **monorepo** using **pnpm workspaces** and **Tur
 
 The architecture, tooling choices, development workflow (dev, build, Docker), API boundaries, persistence strategy, and testing approach are fully documented here:
 
-👉 **`docs/architecture.md`**
+👉 **[docs/architecture.md](docs/architecture.md)**
 
 That document is the **source of truth** for:
 - monorepo structure and rationale
