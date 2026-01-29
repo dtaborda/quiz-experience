@@ -36,7 +36,7 @@ The monorepo structure enables:
 * AI-agent-driven workflows
 * consistent build, test, and dev orchestration
 
-📐 Full technical decisions: **`docs/architecture.md`**
+📐 Full technical decisions: **[docs/architecture.md](docs/architecture.md)**
 
 ---
 
@@ -60,8 +60,8 @@ Main functional areas:
 * History & leaderboard (local)
 * Optional learning and extensibility features
 
-🧩 Full functional specification: **`docs/use-cases.md`**
-🎨 Wireframes: **`docs/wireframes.yaml`**
+🧩 Full functional specification: **[docs/use-cases.md](docs/use-cases.md)**
+🎨 Wireframes: **[docs/wireframes.yaml](docs/wireframes.yaml)**
 
 ---
 
