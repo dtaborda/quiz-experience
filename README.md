@@ -5,7 +5,7 @@
 * [Architecture Overview](#architecture-overview)
 * [Product Specification (Use Cases)](#product-specification-use-cases)
 * [Running the Project](#running-the-project)
-* [Notes for AI Agents](#notes-for-ai-agents)
+* [Agentic Architecture](#agentic-architecture)
 
 ---
 
@@ -82,12 +82,15 @@ docker compose -f infra/docker-compose.yml up --build
 
 ---
 
-## Notes for AI Agents
+## Agentic Architecture
 
-This project is designed for **AI-assisted development**.
+This project is built using an **AI-first, agent-driven development model**.
 
-Agents must:
+- Coding agents (OpenCode, Claude Code, Codex, etc.) are treated as **primary developers**
+- Clear delegation is enforced via a root agent and specialized sub-agents
+- Project rules, workflows, and conventions are encoded as **Agent Skills**
 
-* treat documentation in `docs/` as the source of truth
-* implement features together with tests
-* follow the defined architecture and use cases
+📚 Detailed documentation:
+- Agent architecture & skills: **[docs/agents-and-skills.md](docs/agents-and-skills.md)**
+- Agent instructions: `AGENTS.md`
+
