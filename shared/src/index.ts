@@ -43,3 +43,10 @@ export {
   type QuizLeaderboardEntry,
   type QuizLeaderboard,
 } from './schemas/leaderboard'
+
+// Utils
+export {
+  calculateScore,
+  shuffleQuestionOrder,
+  type ScoreBreakdown,
+} from './utils'

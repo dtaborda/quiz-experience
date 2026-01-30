@@ -7,11 +7,11 @@
 Finalize the shared package with Zod schemas, reusable utilities, and published build artifacts.
 
 ## Tasks
-- [ ] Review `shared/src` schemas (session, quiz, attempt, leaderboard) for completeness vs. `docs/use-cases.md`.
-- [ ] Add TypeScript utilities (score calculator, shuffle helper) if required by frontend/backend.
-- [ ] Configure build outputs (`dist/`) and ensure `pnpm --filter shared build` emits types + JS.
-- [ ] Write Vitest suites validating schema behavior (happy path + failures).
-- [ ] Document usage examples in `shared/README.md` (imports for frontend/backend).
+- [x] Review `shared/src` schemas (session, quiz, attempt, leaderboard) for completeness vs. `docs/use-cases.md`.
+- [x] Add TypeScript utilities (score calculator, shuffle helper) if required by frontend/backend.
+- [x] Configure build outputs (`dist/`) and ensure `pnpm --filter shared build` emits types + JS.
+- [x] Write Vitest suites validating schema behavior (happy path + failures).
+- [x] Document usage examples in `shared/README.md` (imports for frontend/backend).
 
 ## Deliverables
 - Production-ready `shared` package published locally via workspace linking.
