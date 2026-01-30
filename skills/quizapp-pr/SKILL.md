@@ -1,3 +1,4 @@
+---
 name: quizapp-pr
 description: >
   Creates Pull Requests for QuizApp following the repo template, AI agent guardrails,

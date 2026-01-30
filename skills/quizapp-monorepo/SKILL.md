@@ -7,7 +7,7 @@ license: MIT
 metadata:
   author: QuizApp Team
   version: "1.1"
-  scope: [root]
+  scope: [root, infra]
   auto_invoke:
     - "Setting up monorepo structure"
     - "Configuring pnpm workspaces"

@@ -5,8 +5,13 @@ description: >
   Trigger: When writing React components - no useMemo/useCallback needed.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root, frontend]
+  auto_invoke:
+    - "Writing React components"
+    - "Working with React hooks"
+    - "Optimizing UI with React Compiler"
 ---
 
 ## No Manual Memoization (REQUIRED)

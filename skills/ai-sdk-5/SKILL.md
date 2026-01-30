@@ -5,8 +5,12 @@ description: >
   Trigger: When building AI chat features - breaking changes from v4.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root, frontend]
+  auto_invoke:
+    - "Building AI chat features"
+    - "Integrating Vercel AI SDK"
 ---
 
 ## Breaking Changes from AI SDK 4

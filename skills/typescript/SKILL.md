@@ -5,8 +5,13 @@ description: >
   Trigger: When writing TypeScript code - types, interfaces, generics.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root, frontend, backend, shared]
+  auto_invoke:
+    - "Writing TypeScript types or interfaces"
+    - "Defining shared contracts"
+    - "Enforcing const object patterns"
 ---
 
 ## Const Types Pattern (REQUIRED)

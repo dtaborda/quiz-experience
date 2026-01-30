@@ -5,8 +5,14 @@ description: >
   Trigger: When building REST APIs with Django - ViewSets, Serializers, Filters.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root]
+  auto_invoke:
+    - "Adding DRF pagination or permissions"
+    - "Creating ViewSets, serializers, or filters"
+    - "Implementing JSON:API endpoints"
+    - "Modifying API responses"
 ---
 
 ## ViewSet Pattern

@@ -7,7 +7,7 @@ license: MIT
 metadata:
   author: QuizApp Team
   version: "1.0"
-  scope: [root]
+  scope: [root, infra]
   auto_invoke:
     - "Setting up or modifying Devbox for this repo"
     - "Adding/removing packages from Devbox"

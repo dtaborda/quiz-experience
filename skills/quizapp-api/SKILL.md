@@ -7,7 +7,7 @@ license: MIT
 metadata:
   author: QuizApp Team
   version: "1.0"
-  scope: [backend]
+  scope: [root, backend]
   auto_invoke:
     - "Creating QuizApp API endpoints"
     - "Working with quiz JSON data"

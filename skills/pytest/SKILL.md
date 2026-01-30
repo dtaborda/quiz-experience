@@ -5,8 +5,12 @@ description: >
   Trigger: When writing Python tests - fixtures, mocking, markers.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root]
+  auto_invoke:
+    - "Writing Python tests"
+    - "Mocking services with pytest"
 ---
 
 ## Basic Test Structure

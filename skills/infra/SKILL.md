@@ -7,7 +7,7 @@ license: MIT
 metadata:
   author: QuizApp Team
   version: "1.0"
-  scope: [root]
+  scope: [root, infra]
   auto_invoke:
     - "Creating or updating infra/ files"
     - "Authoring Dockerfiles or docker-compose manifests"

@@ -5,8 +5,13 @@ description: >
   Trigger: When using Zod for validation - breaking changes from v3.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root, frontend, backend, shared]
+  auto_invoke:
+    - "Creating Zod schemas"
+    - "Validating runtime data"
+    - "Parsing request or response payloads"
 ---
 
 ## Breaking Changes from Zod 3

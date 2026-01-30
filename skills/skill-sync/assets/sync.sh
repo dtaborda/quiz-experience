@@ -35,7 +35,7 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "Options:"
             echo "  --dry-run    Show what would change without modifying files"
-            echo "  --scope      Only sync specific scope (root, ui, api, sdk, mcp_server)"
+            echo "  --scope      Only sync specific scope (root, frontend, backend, shared, infra, docs)"
             exit 0
             ;;
         *)
@@ -49,12 +49,13 @@ done
 get_agents_path() {
     local scope="$1"
     case "$scope" in
-        root)       echo "$REPO_ROOT/AGENTS.md" ;;
-        ui)         echo "$REPO_ROOT/ui/AGENTS.md" ;;
-        api)        echo "$REPO_ROOT/api/AGENTS.md" ;;
-        sdk)        echo "$REPO_ROOT/prowler/AGENTS.md" ;;
-        mcp_server) echo "$REPO_ROOT/mcp_server/AGENTS.md" ;;
-        *)          echo "" ;;
+        root)      echo "$REPO_ROOT/AGENTS.md" ;;
+        frontend)  echo "$REPO_ROOT/frontend/AGENTS.md" ;;
+        backend)   echo "$REPO_ROOT/backend/AGENTS.md" ;;
+        shared)    echo "$REPO_ROOT/shared/AGENTS.md" ;;
+        infra)     echo "$REPO_ROOT/infra/AGENTS.md" ;;
+        docs)      echo "$REPO_ROOT/docs/AGENTS.md" ;;
+        *)         echo "" ;;
     esac
 }
 

@@ -5,8 +5,12 @@ description: >
   Trigger: When user asks to create an epic, large feature, or multi-task initiative.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root]
+  auto_invoke:
+    - "Creating Jira epics"
+    - "Documenting large initiatives"
 ---
 
 ## When to Use

@@ -7,7 +7,7 @@ license: MIT
 metadata:
   author: QuizApp Team
   version: "1.0"
-  scope: [frontend]
+  scope: [root, frontend]
   auto_invoke:
     - "Creating QuizApp UI components"
     - "Building QuizApp pages"

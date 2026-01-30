@@ -5,8 +5,13 @@ description: >
   Trigger: When managing React state with Zustand.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root, frontend]
+  auto_invoke:
+    - "Using Zustand stores"
+    - "Persisting client-side state"
+    - "Structuring Zustand selectors"
 ---
 
 ## Basic Store

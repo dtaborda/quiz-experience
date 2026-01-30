@@ -5,8 +5,12 @@ description: >
   Trigger: When writing E2E tests - Page Objects, selectors, MCP workflow.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.1"
+  scope: [root, frontend]
+  auto_invoke:
+    - "Writing Playwright E2E tests"
+    - "Maintaining frontend E2E helpers"
 ---
 
 ## MCP Workflow (MANDATORY If Available)

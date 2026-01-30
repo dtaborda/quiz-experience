@@ -5,8 +5,13 @@ description: >
   Trigger: When styling with Tailwind - cn(), theme variables, no var() in className.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.1"
+  scope: [root, frontend]
+  auto_invoke:
+    - "Working with Tailwind classes"
+    - "Styling QuizApp UI"
+    - "Using shadcn/ui primitives"
 ---
 
 ## Styling Decision Tree

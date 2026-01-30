@@ -1,3 +1,4 @@
+---
 name: quizapp-docs
 description: >
   QuizApp documentation style guide and writing standards.
@@ -6,10 +7,11 @@ license: Apache-2.0
 metadata:
   author: quizapphq
   version: "1.1"
-  scope: [root]
+  scope: [root, docs]
   auto_invoke:
     - "Writing documentation"
     - "Updating docs links or navigation"
+    - "Syncing AGENTS and Copilot instructions"
   allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 

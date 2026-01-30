@@ -5,8 +5,12 @@ description: >
   Trigger: When user asks to create a new skill, add agent instructions, or document patterns for AI.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root, docs]
+  auto_invoke:
+    - "Creating new AI skills"
+    - "Updating existing skills"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 
@@ -49,7 +53,7 @@ description: >
   Trigger: {When the AI should load this skill}.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
 ---
 
@@ -121,7 +125,7 @@ Generic skill needs Prowler info?  → Add references/ pointing to Prowler docs
 | `name` | Yes | Skill identifier (lowercase, hyphens) |
 | `description` | Yes | What + Trigger in one block |
 | `license` | Yes | Always `Apache-2.0` for Prowler |
-| `metadata.author` | Yes | `gentleman-programming` |
+| `metadata.author` | Yes | `dtaborda` |
 | `metadata.version` | Yes | Semantic version as string |
 
 ---

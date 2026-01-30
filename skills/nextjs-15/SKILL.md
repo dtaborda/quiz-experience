@@ -5,8 +5,13 @@ description: >
   Trigger: When working with Next.js - routing, Server Actions, data fetching.
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: dtaborda
   version: "1.0"
+  scope: [root, frontend]
+  auto_invoke:
+    - "Building Next.js routes"
+    - "Using the App Router or Server Actions"
+    - "Configuring Next.js data fetching"
 ---
 
 ## App Router File Conventions

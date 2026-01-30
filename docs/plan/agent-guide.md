@@ -4,13 +4,13 @@ This guide assigns ownership per workspace folder and references the skills each
 
 | Area | Owner Agent | Primary Skills | Key Responsibilities |
 | --- | --- | --- | --- |
-| Root / Tooling | Infra/Repo Steward | `quizapp-monorepo`, `biome` | Maintain pnpm workspace, Turbo, repo-wide scripts, lint/format policies. |
-| `infra/` | Infra Agent | `infra`, `devbox` | Docker stack, compose orchestration, environment variables, Devbox configs. |
-| `shared/` | Shared Contracts Agent | `typescript`, `zod-4` | Zod schemas, shared types, utils, publishable build outputs. |
-| `backend/` | Backend Agent | `express`, `quizapp-api`, `quizapp-testing` | Express app, data loaders, API routes, backend tests. |
-| `frontend/` | Frontend Agent | `nextjs-15`, `react-19`, `tailwind-4`, `quizapp-ui`, `zustand-5`, `ai-sdk-5` (if chat) | Next.js UI, Zustand stores, quiz flow, frontend tests. |
-| Cross-cutting Testing | QA Agent | `quizapp-testing`, `playwright` (future) | Vitest + Supertest suites, coverage, future E2E stories. |
-| Documentation | Docs/DevEx Agent | `quizapp-docs`, `skill-creator` (if needed) | README, architecture docs, agent/skill updates. |
+| Root / Tooling | Infra/Repo Steward ([playbook](./agent-infra.md)) | `quizapp-monorepo`, `biome` | Maintain pnpm workspace, Turbo, repo-wide scripts, lint/format policies. |
+| `infra/` | Infra Agent ([playbook](./agent-infra.md)) | `infra`, `devbox` | Docker stack, compose orchestration, environment variables, Devbox configs. |
+| `shared/` | Shared Contracts Agent ([playbook](./agent-shared.md)) | `typescript`, `zod-4` | Zod schemas, shared types, utils, publishable build outputs. |
+| `backend/` | Backend Agent ([playbook](./agent-backend.md)) | `express`, `quizapp-api`, `quizapp-testing` | Express app, data loaders, API routes, backend tests. |
+| `frontend/` | Frontend Agent ([playbook](./agent-frontend.md)) | `nextjs-15`, `react-19`, `tailwind-4`, `quizapp-ui`, `zustand-5`, `ai-sdk-5` (if chat) | Next.js UI, Zustand stores, quiz flow, frontend tests. |
+| Cross-cutting Testing | QA Agent ([playbook](./agent-qa.md)) | `quizapp-testing`, `playwright` (future) | Vitest + Supertest suites, coverage, future E2E stories. |
+| Documentation | Docs/DevEx Agent ([playbook](./agent-docs.md)) | `quizapp-docs`, `skill-creator` (if needed) | README, architecture docs, agent/skill updates. |
 
 ## Operating Model
 
