@@ -6,13 +6,21 @@ description: >
 license: MIT
 metadata:
   author: QuizApp Team
-  version: "1.0"
+  version: "1.1"
   scope: [root, frontend, backend, shared]
   auto_invoke:
     - "Implementing quiz attempt persistence"
     - "Working with quiz domain logic"
     - "Managing user sessions"
     - "Implementing attempt lifecycle"
+    - "Implementing learning mode"
+    - "Creating quiz sessions"
+    - "Implementing randomized question order"
+    - "Handling attempt completion"
+    - "Managing active vs completed attempts"
+    - "Working with localStorage persistence"
+    - "Implementing quiz history"
+    - "Building leaderboard features"
 ---
 
 # QuizApp Domain Skill

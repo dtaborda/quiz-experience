@@ -1,537 +1,298 @@
-# QuizApp — Agent Skills (Recommended Set)
-
-## Purpose
-
-This document defines the **skills** we want available to agents while building QuizApp.
-
-Skills are **portable, versioned workflow packs** (instructions + optional scripts + references) that help agents execute work consistently.
-
-Recommended location:
-
-* `skills/` (repo root)
-
+---
+title: 'AI Skills System'
 ---
 
-## Proposed `skills/` layout
+This guide explains the AI Skills system that provides on-demand context and patterns to AI agents working with the QuizApp codebase.
 
-```txt
-skills/
-├── quizapp-scaffold/
-│   └── SKILL.md
-├── quizapp-contracts/
-│   └── SKILL.md
-├── quizapp-backend-api/
-│   └── SKILL.md
-├── quizapp-frontend-ui/
-│   └── SKILL.md
-├── quizapp-persistence/
-│   └── SKILL.md
-├── quizapp-testing/
-│   └── SKILL.md
-└── quizapp-docs-sync/
-    └── SKILL.md
+<Info>
+**What are AI Skills?** Skills are structured instructions that help AI agents (Claude Code, Cursor, Copilot, etc.) understand QuizApp's conventions, patterns, and best practices.
+</Info>
+
+## Architecture Overview
+
+```mermaid
+graph LR
+    subgraph FLOW["AI Skills Architecture"]
+        A["AI Agent"] -->|"1. matches trigger"| B["AGENTS.md"]
+        B -->|"2. loads"| C["Skill"]
+        C -->|"3. provides"| D["Patterns<br/>Templates<br/>Commands"]
+        C -->|"4. references"| E["Local Docs"]
+        D --> F["Correct Output"]
+        E --> F
+    end
+
+    style A fill:#1e3a5f,stroke:#4a9eff,color:#fff
+    style B fill:#5c4d1a,stroke:#ffd700,color:#fff
+    style C fill:#1a4d1a,stroke:#4caf50,color:#fff
+    style E fill:#4a1a4d,stroke:#ba68c8,color:#fff
+    style F fill:#1a4d2e,stroke:#66bb6a,color:#fff
 ```
 
----
+## How It Works
 
-## Skill List (what each skill does)
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A as AI Agent
+    participant R as AGENTS.md
+    participant S as Skill
+    participant AS as assets/
+    participant RF as references/
+    participant D as Local Docs
 
-### Foundation / Generic Skills (recommended)
+    U->>A: "Create a quiz component"
 
-These are “cross-cutting” skills that keep the codebase **uniform** (style, lint, naming, boundaries). They are reusable across many projects.
+    Note over A: Analyze request context
 
-#### SKILL-00 — `repo-conventions`
+    A->>R: Find matching skill trigger
+    R-->>A: quizapp-ui matches
 
-**Goal:** Enforce consistent style and naming across the monorepo.
+    A->>S: Load SKILL.md
+    S-->>A: Patterns, rules, templates, commands
 
-Includes:
+    Note over A: Need code template?
 
-* TypeScript strict rules (how we type things)
-* naming conventions (files, components, routes)
-* import conventions / aliasing
-* error-handling conventions
-* "Definition of Done" checklist (code + tests + docs)
+    A->>AS: Read assets/QuizCard.tsx
+    AS-->>A: Component implementation template
 
-Outputs:
+    Note over A: Need more details?
 
-* a single place agents consult before writing any code
+    A->>RF: Read references/ui-patterns.md
+    RF-->>A: Points to local docs
 
----
+    A->>D: Read docs/use-cases.md
+    D-->>A: Full documentation
 
-#### SKILL-00B — `lint-format`
+    Note over A: Execute with full context
 
-**Goal:** Guarantee formatting/lint consistency.
-
-Includes:
-
-* ESLint rules expectations
-* Prettier expectations
-* the exact commands agents must run and fix before finishing
-
-Outputs:
-
-* stable formatting and less diffs / less review noise
-
----
-
-#### SKILL-00C — `ts-patterns`
-
-**Goal:** Standardize modern TS patterns used in this repo.
-
-Includes:
-
-* functional patterns
-* safe parsing with Zod
-* error typing and result patterns
-* avoiding `any`
-
-Outputs:
-
-* consistent TypeScript quality across FE/BE/shared
-
----
-
-#### SKILL-00D — `git-pr-conventions`
-
-**Goal:** Standardize commit/PR behavior for agent output.
-
-Includes:
-
-* commit message rules
-* PR title format (if applicable)
-* “run checks before commit” guardrails
-
-Outputs:
-
-* predictable history and fewer broken builds
-
----
-
-### Stack-Specific Skills (QuizApp)
-
-### SKILL-01 — `quizapp-scaffold`
-
-**Goal:** Create and validate the monorepo structure.
-
-Includes:
-
-* pnpm workspaces + turborepo baseline
-* standard scripts (`dev`, `build`, `test`, `lint`)
-* folder structure (`frontend/`, `backend/`, `shared/`, `docs/`, `infra/`)
-
-Outputs:
-
-* repo skeleton + working `pnpm dev`
-
----
-
-### SKILL-02 — `quizapp-contracts`
-
-**Goal:** Maintain shared Zod schemas and types.
-
-Includes:
-
-* `Quiz`, `Question`
-* `Attempt`, `Answer`
-* `Session`
-
-Outputs:
-
-* `shared/schemas/*` + usage examples for FE/BE
-
----
-
-### SKILL-03 — `quizapp-backend-api`
-
-**Goal:** Implement the Express REST API serving quiz data.
-
-Includes:
-
-* endpoints: `/api/health`, `/api/quizzes`, `/api/quizzes/:quizId`
-* JSON loader + schema validation
-
-Outputs:
-
-* working API + error handling
-
----
-
-### SKILL-04 — `quizapp-frontend-ui`
-
-**Goal:** Implement Next.js screens using shadcn/ui + Tailwind.
-
-Includes:
-
-* Home, Quiz, Results, Review, History, Leaderboard, Create-Quiz placeholder
-* consistent topbar with username
-
-Outputs:
-
-* screens matching wireframe intent
-
----
-
-### SKILL-05 — `quizapp-persistence`
-
-**Goal:** Implement attempt lifecycle + localStorage persistence.
-
-Includes:
-
-* one active attempt per quiz
-* completed attempts only in history
-* stable random order per attempt
-* learning mode flag stored
-
-Outputs:
-
-* refresh-resume behavior guaranteed
-
----
-
-### SKILL-06 — `quizapp-testing`
-
-**Goal:** Ensure feature completeness with tests.
-
-Includes:
-
-* Vitest unit tests (scoring, leaderboard derivation, random order)
-* Supertest integration tests (API endpoints)
-
-Outputs:
-
-* `pnpm test` green as a gate
-
----
-
-### SKILL-07 — `quizapp-docs-sync`
-
-**Goal:** Keep docs consistent as code evolves.
-
-Includes:
-
-* sync routes with `docs/use-cases.md`
-* sync screen intent with `docs/wireframes.yaml`
-* update `README.md` index + references
-
-Outputs:
-
-* docs remain source of truth
-
----
-
-## Recommendation
-
-* Start with foundation skills (SKILL-00 series), then SKILL-01, 02, 03, 05, 06.
-* Add SKILL-04 once contracts + API are stable.
-* Keep SKILL-07 as a final step for each feature.
-
----
-
-# Agent Skills & Agents Architecture
-
-> This section documents **how AI agents are expected to work in this repository**, following the **Agent Skills open standard** and modern agentic-development practices.
-
-This is **reference documentation** for humans *and* agents. It explains:
-
-* what skills are
-* why we use them
-* how they are structured
-* how agents are delegated and orchestrated
-
-This documentation complements `AGENTS.md` and the `skills/` directory.
-
----
-
-## What Are Agent Skills (in this project)
-
-Agent Skills are **versioned instruction packages** that teach AI coding agents how to work correctly within this repository.
-
-They encode:
-
-* critical rules (ALWAYS / NEVER)
-* architectural conventions
-* naming, structure, and style decisions
-* repeatable workflows (scaffold, test, refactor)
-
-Instead of repeating long prompts every time, we **load a skill once** and let the agent apply it consistently.
-
-This project follows the **Agent Skills open standard**:
-
-* [https://agentskills.io](https://agentskills.io)
-* [https://github.com/anthropics/skills](https://github.com/anthropics/skills)
-
----
-
-## Why We Use Skills
-
-Without skills:
-
-* agents default to generic patterns
-* code style drifts
-* tests are skipped or inconsistent
-* architecture decisions get reinvented
-
-With skills:
-
-* every agent starts with the same mental model
-* conventions are enforced automatically
-* delegation becomes safe and predictable
-
-Think of skills as:
-
-> *"company-wide engineering standards, but readable by AI"*
-
----
-
-## Repo-Level Files
-
-### `AGENTS.md`
-
-`AGENTS.md` is the **entry point for all coding agents**.
-
-It acts as a **README for agents**, not humans.
-
-Typical contents:
-
-* setup commands
-* dev / build / test commands
-* code style rules
-* Definition of Done (DoD)
-* auto-invoke rules for skills
-
-This file is read automatically by:
-
-* OpenCode
-* Claude Code
-* Codex
-* Cursor
-* Gemini CLI
-
----
-
-### `skills/`
-
-The `skills/` folder contains **all Agent Skills** used by this project.
-
-Directory structure:
-
-```
-skills/
-├── {skill-name}/
-│   ├── SKILL.md          # Required – instructions + metadata
-│   ├── assets/           # Optional – templates, schemas
-│   ├── scripts/          # Optional – executable helpers
-│   └── references/       # Optional – links to local docs
-└── README.md             # Overview of all skills
+    A->>U: Creates component with correct patterns
 ```
 
-Each skill is:
+## Before vs After
 
-* small
-* focused
-* reusable
+```mermaid
+graph TD
+    subgraph COMPARISON["BEFORE vs AFTER"]
+        direction LR
+
+        subgraph BEFORE["Without Skills"]
+            B1["AI guesses conventions"]
+            B2["Wrong structure"]
+            B3["Multiple iterations"]
+            B4["Web searches for docs"]
+            B5["Inconsistent patterns"]
+        end
+
+        subgraph AFTER["With Skills"]
+            A1["AI loads exact patterns"]
+            A2["Correct structure"]
+            A3["First-time right"]
+            A4["Local docs referenced"]
+            A5["Consistent patterns"]
+        end
+    end
+
+    style BEFORE fill:#5c1a1a,stroke:#ef5350,color:#fff
+    style AFTER fill:#1a4d1a,stroke:#66bb6a,color:#fff
+```
+
+## Complete Architecture
+
+```mermaid
+flowchart TB
+    subgraph ENTRY["ENTRY POINT"]
+        AGENTS["AGENTS.md<br/>━━━━━━━━━━━━━━━━━<br/>• Available skills registry<br/>• Skill → Trigger mapping<br/>• Component navigation"]
+    end
+
+    subgraph SKILLS["SKILLS LIBRARY"]
+        direction TB
+
+        subgraph GENERIC["Generic Skills"]
+            G1["typescript"]
+            G2["react-19"]
+            G3["nextjs-15"]
+            G4["tailwind-4"]
+            G5["zod-4"]
+            G6["zustand-5"]
+            G7["ai-sdk-5"]
+            G8["playwright"]
+            G9["pytest"]
+            G10["django-drf"]
+            G11["express"]
+            G12["biome"]
+        end
+
+        subgraph QUIZAPP["QuizApp Skills"]
+            Q1["quizapp-domain"]
+            Q2["quizapp-monorepo"]
+            Q3["quizapp-testing"]
+            Q4["quizapp-api"]
+            Q5["quizapp-ui"]
+        end
+
+        subgraph META["Meta Skills"]
+            M1["skill-creator"]
+        end
+    end
+
+    subgraph STRUCTURE["SKILL STRUCTURE"]
+        direction LR
+
+        SKILLMD["SKILL.md<br/>━━━━━━━━━━━━━━<br/>• Frontmatter<br/>• Critical patterns<br/>• Decision trees<br/>• Code examples<br/>• Commands<br/>• Keywords"]
+
+        ASSETS["assets/<br/>━━━━━━━━━━━━━━<br/>• Code templates<br/>• JSON schemas<br/>• Config examples"]
+
+        REFS["references/<br/>━━━━━━━━━━━━━━<br/>• Local doc paths<br/>• No web URLs<br/>• Single source"]
+    end
+
+    subgraph DOCS["DOCUMENTATION"]
+        direction TB
+        DD["docs/"]
+        D1["architecture.md"]
+        D2["use-cases.md"]
+        D3["wireframes.yaml"]
+        D4["agents-and-skills.md"]
+
+        DD --> D1
+        DD --> D2
+        DD --> D3
+        DD --> D4
+    end
+
+    ENTRY --> SKILLS
+    SKILLS --> STRUCTURE
+    SKILLMD --> ASSETS
+    SKILLMD --> REFS
+    REFS -.->|"points to"| DOCS
+
+    style ENTRY fill:#1e3a5f,stroke:#4a9eff,color:#fff
+    style GENERIC fill:#5c4d1a,stroke:#ffd700,color:#fff
+    style QUIZAPP fill:#1a4d1a,stroke:#66bb6a,color:#fff
+    style META fill:#4a1a4d,stroke:#ba68c8,color:#fff
+    style STRUCTURE fill:#5c3d1a,stroke:#ffb74d,color:#fff
+    style DOCS fill:#1a3d4d,stroke:#4dd0e1,color:#fff
+```
+
+## Skills Included
+
+| Type | Skills |
+|------|--------|
+| **Generic** | typescript, react-19, nextjs-15, tailwind-4, zod-4, zustand-5, ai-sdk-5, playwright, pytest, django-drf, express, biome |
+| **QuizApp** | quizapp-domain, quizapp-monorepo, quizapp-testing, quizapp-api, quizapp-ui |
+| **Meta** | skill-creator |
+
+**Total: 18 skills**
+
+## Skill Structure
+
+Each skill follows the [Agent Skills spec](https://agentskills.io):
+
+```
+skills/{skill-name}/
+├── SKILL.md          # Patterns, rules, decision trees
+├── assets/           # Code templates, schemas
+└── references/       # Links to local docs (single source of truth)
+```
+
+## Key Design Decisions
+
+1. **Self-contained skills** - Critical patterns inline for fast loading
+2. **Local doc references** - No web URLs, points to `docs/*.md`
+3. **Single source of truth** - Skills reference docs, no duplication
+4. **On-demand loading** - AI loads only what's needed for the task
+5. **Monorepo-aware** - Skills cover frontend, backend, and shared packages
+
+## QuizApp-Specific Patterns
+
+### Domain Skills (quizapp-domain)
+- **Attempt lifecycle:** One active attempt per quiz, multiple completed
+- **localStorage persistence:** Browser-based storage with specific keys
+- **Question randomization:** Stable per-attempt order
+- **Learning mode:** Explanation-first quiz flow
+
+### API Skills (quizapp-api)
+- **File-based storage:** Quizzes as JSON files in `backend/data/quizzes/`
+- **Express patterns:** Route → Controller → Service architecture
+- **Zod validation:** Schema validation for all quiz data
+- **No database:** localStorage on frontend, JSON files on backend
+
+### UI Skills (quizapp-ui)
+- **Component organization:** `components/ui/` (shadcn/ui) + `components/quiz/` (app-specific)
+- **Quiz flow:** QuestionView → FeedbackView → ResultsScreen
+- **State management:** Zustand for session/attempts, React Query for server data
+- **Styling:** Tailwind CSS 4 with shadcn/ui components
+
+### Testing Skills (quizapp-testing)
+- **Vitest:** Unit and integration tests
+- **Supertest:** API endpoint testing
+- **Co-location:** Tests live next to implementation (.spec.ts)
+- **AAA pattern:** Arrange-Act-Assert structure
+
+### Monorepo Skills (quizapp-monorepo)
+- **pnpm workspaces:** Package management
+- **Turborepo:** Task orchestration with caching
+- **workspace:* protocol:** Internal dependencies
+- **Shared package:** Common schemas and types
+
+### Code Quality Skills (biome)
+- **Unified linting:** Single tool for format + lint
+- **Import organization:** Automatic sorting
+- **Strict TypeScript:** No `any` types allowed
+- **Pre-commit hooks:** Quality gates before commit
+
+## Creating New Skills
+
+Use the `skill-creator` meta-skill to create new skills that follow the Agent Skills spec. See `AGENTS.md` for the full list of available skills and their triggers.
+
+### When to Create a New Skill
+
+Create a skill when:
+- Pattern is used 3+ times across the codebase
+- Workflow has multiple steps requiring consistency
+- Convention is project-specific (not generic)
+- Domain knowledge needs preservation for future agents
+
+Don't create a skill when:
+- Pattern is used 1-2 times (document in AGENTS.md instead)
+- Convention is generic and well-documented elsewhere
+- Trivial pattern that doesn't need enforcement
+
+## Auto-Invoke System
+
+Skills are automatically invoked when AI detects matching actions:
+
+**Example:**
+```
+User: "Implement quiz attempt persistence in localStorage"
+AI detects: "Implementing quiz attempt persistence"
+Skill activated: quizapp-domain
+Result: Code follows attempt lifecycle, uses correct localStorage keys
+```
+
+See `AGENTS.md` for complete auto-invoke trigger mappings.
+
+## Skill Maintenance
+
+### Updating Skills
+1. Update skill's `SKILL.md`
+2. Increment `version` in frontmatter
+3. Document breaking changes
+4. Update references in `AGENTS.md`
+
+### Adding Triggers
+1. Edit skill's `metadata.auto_invoke` section
+2. Update `AGENTS.md` Auto-Invoke table
+3. Test with AI assistant
+
+## Resources
+
+- **Main Guide:** [AGENTS.md](/AGENTS.md) - Entry point for all AI agents
+- **Skills Library:** [skills/README.md](/skills/README.md) - Skills documentation
+- **Architecture:** [docs/architecture.md](/docs/architecture.md) - Technical decisions
+- **Use Cases:** [docs/use-cases.md](/docs/use-cases.md) - Functional requirements
+- **Wireframes:** [docs/wireframes.yaml](/docs/wireframes.yaml) - UI reference
+- **Agent Skills Standard:** [https://agentskills.io](https://agentskills.io) - Open standard spec
 
 ---
 
-## Generic Skills (Foundation Layer)
-
-These skills are **always available** and define how code should look and behave across the repo.
-
-### `repo-conventions`
-
-Purpose:
-
-* naming rules (files, folders, components)
-* import aliases
-* error handling conventions
-* Definition of Done per feature
-
-Why:
-
-* prevents architectural drift
-* keeps FE / BE / shared code aligned
-
----
-
-### `lint-format`
-
-Purpose:
-
-* ESLint + Prettier rules
-* formatting expectations
-* zero-warning policy
-
-Why:
-
-* clean diffs
-* predictable output from agents
-
----
-
-### `typescript-patterns`
-
-Purpose:
-
-* strict TypeScript usage
-* no `any`
-* Zod for runtime validation
-* shared types contracts
-
-Why:
-
-* safer refactors
-* clear FE/BE boundaries
-
----
-
-### `git-and-pr`
-
-Purpose:
-
-* commit message format
-* PR checklist
-* test + lint before done
-
-Why:
-
-* enforces quality gates automatically
-
----
-
-## Stack Skills (Technology Layer)
-
-These skills encode **framework-specific best practices**.
-
-### `nextjs-app-router`
-
-Covers:
-
-* App Router structure
-* server vs client components
-* loading / error boundaries
-* API routes usage
-
----
-
-### `react-ui`
-
-Covers:
-
-* component patterns
-* hooks usage
-* composition rules
-* shadcn/ui conventions
-
----
-
-### `node-express-api`
-
-Covers:
-
-* route → controller → service separation
-* error middleware
-* HTTP status codes
-* request validation
-
----
-
-### `testing-playbook`
-
-Covers:
-
-* unit vs integration tests
-* Vitest conventions
-* Supertest for API
-* minimum test coverage per feature
-
----
-
-## Product Skills (QuizApp Domain)
-
-These skills are **domain-specific** and encode QuizApp rules.
-
-Examples:
-
-* `quiz-domain`
-* `quiz-persistence`
-* `quiz-history`
-* `quiz-learning-mode`
-* `quiz-leaderboard`
-
-They reference:
-
-* Use Cases (docs)
-* Wireframes (YAML)
-* Business rules
-
----
-
-## Agent Delegation Model
-
-We use a **root agent + specialized sub-agents** model.
-
-### Root Agent — `architect-agent`
-
-Responsibilities:
-
-* read AGENTS.md
-* load foundational skills
-* plan the implementation
-* delegate work to sub-agents
-
----
-
-### Sub-Agents
-
-| Agent            | Responsibility                   |
-| ---------------- | -------------------------------- |
-| `frontend-agent` | Next.js UI, routes, components   |
-| `backend-agent`  | API, contracts, services         |
-| `state-agent`    | localStorage persistence logic   |
-| `test-agent`     | unit + integration tests         |
-| `docs-agent`     | keep docs and wireframes in sync |
-
-Each sub-agent:
-
-* loads only the skills it needs
-* works in isolation
-* returns artifacts to the root agent
-
----
-
-## Skill Auto-Invoke Strategy
-
-Because agents don’t reliably auto-load skills by themselves, we enforce loading via **AGENTS.md Auto‑invoke sections**.
-
-Rule:
-
-> When performing X, ALWAYS load Y skill first.
-
-This prevents:
-
-* skipped conventions
-* forgotten tests
-* inconsistent structure
-
----
-
-## Mental Model (for humans)
-
-* **AGENTS.md** = how agents should behave here
-* **skills/** = what agents need to know
-* **docs/** = why the system is designed this way
-
-Together, they form the **agent operating system** for this repo.
-
----
-
-## References
-
-* Agent Skills Standard: [https://agentskills.io](https://agentskills.io)
-* AGENTS.md specification: [https://agents.md](https://agents.md)
-* Claude Code skills: [https://platform.claude.com/docs/agents](https://platform.claude.com/docs/agents)
-* OpenCode: [https://opencode.ai](https://opencode.ai)
-
----
-
-> This document is intentionally explicit. Ambiguity is the enemy of agentic development.
+**Remember:** Skills form the "agent operating system" for QuizApp. Together with AGENTS.md and docs/, they ensure AI agents produce consistent, high-quality code that follows project conventions.

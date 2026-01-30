@@ -6,13 +6,21 @@ description: >
 license: MIT
 metadata:
   author: QuizApp Team
-  version: "1.0"
+  version: "1.1"
   scope: [root, frontend, backend, shared]
   auto_invoke:
     - "Writing tests"
     - "Adding test coverage"
     - "Testing API endpoints"
     - "Testing domain logic"
+    - "Writing Vitest unit tests"
+    - "Writing Supertest API tests"
+    - "Testing localStorage persistence"
+    - "Testing React components"
+    - "Mocking API responses"
+    - "Testing attempt lifecycle"
+    - "Writing integration tests"
+    - "Testing Zod schemas"
 ---
 
 # QuizApp Testing Skill

@@ -31,8 +31,6 @@ Use these skills for detailed patterns on-demand:
 | `playwright` | Playwright E2E testing patterns (Page Object Model) | [SKILL.md](skills/playwright/SKILL.md) |
 | `pytest` | pytest testing patterns (fixtures, mocking, markers) | [SKILL.md](skills/pytest/SKILL.md) |
 | `django-drf` | Django REST Framework patterns (ViewSets, Serializers) | [SKILL.md](skills/django-drf/SKILL.md) |
-| `express` | Express.js best practices for building scalable REST APIs | [SKILL.md](skills/express/SKILL.md) |
-| `biome` | Biome linter and formatter patterns for consistent code quality | [SKILL.md](skills/biome/SKILL.md) |
 | `skill-creator` | Create new AI agent skills following Agent Skills spec | [SKILL.md](skills/skill-creator/SKILL.md) |
 
 ### QuizApp-Specific Skills
@@ -42,8 +40,6 @@ Use these skills for detailed patterns on-demand:
 | `quizapp-domain` | Quiz attempt lifecycle, sessions, localStorage persistence, learning mode, randomization | [SKILL.md](skills/quizapp-domain/SKILL.md) |
 | `quizapp-monorepo` | pnpm workspaces + Turborepo setup, cross-package dependencies, task orchestration | [SKILL.md](skills/quizapp-monorepo/SKILL.md) |
 | `quizapp-testing` | Vitest + Supertest patterns for unit, integration, and API tests | [SKILL.md](skills/quizapp-testing/SKILL.md) |
-| `quizapp-api` | Express API patterns for quiz endpoints, JSON file storage, backend conventions | [SKILL.md](skills/quizapp-api/SKILL.md) |
-| `quizapp-ui` | Next.js UI patterns for quiz components, shadcn/ui, frontend conventions | [SKILL.md](skills/quizapp-ui/SKILL.md) |
 
 ### Auto-Invoke Skills
 
@@ -52,72 +48,26 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Action | Skill |
 |--------|-------|
 | Adding new packages to monorepo | `quizapp-monorepo` |
-| Adding test coverage | `quizapp-testing` |
 | App Router / Server Actions | `nextjs-15` |
-| Building AI chat features | `ai-sdk-5` |
-| Building Express middleware | `express` |
-| Building leaderboard features | `quizapp-domain` |
-| Building QuizApp pages | `quizapp-ui` |
-| Configuring Biome | `biome` |
-| Configuring code formatting | `biome` |
-| Configuring Express app | `express` |
-| Configuring Turborepo cache | `quizapp-monorepo` |
 | Configuring Turborepo tasks | `quizapp-monorepo` |
 | Configuring pnpm workspaces | `quizapp-monorepo` |
-| Creating API endpoints with Express | `express` |
-| Creating Express routes | `express` |
-| Creating QuizApp API endpoints | `quizapp-api` |
-| Creating QuizApp UI components | `quizapp-ui` |
-| Creating quiz flow components | `quizapp-ui` |
-| Creating quiz sessions | `quizapp-domain` |
 | Creating Zod schemas | `zod-4` |
 | Creating new skills | `skill-creator` |
-| Debugging workspace resolution | `quizapp-monorepo` |
-| Fixing linting errors | `biome` |
-| Handling attempt completion | `quizapp-domain` |
-| Implementing backend quiz logic | `quizapp-api` |
-| Implementing error handling in Express | `express` |
 | Implementing attempt lifecycle | `quizapp-domain` |
 | Implementing learning mode | `quizapp-domain` |
 | Implementing quiz domain logic | `quizapp-domain` |
-| Implementing quiz history | `quizapp-domain` |
-| Implementing QuizApp frontend features | `quizapp-ui` |
-| Implementing randomized question order | `quizapp-domain` |
-| Implementing quiz attempt persistence | `quizapp-domain` |
-| Loading quiz data from files | `quizapp-api` |
-| Managing active vs completed attempts | `quizapp-domain` |
 | Managing cross-package dependencies | `quizapp-monorepo` |
 | Managing user sessions | `quizapp-domain` |
-| Mocking API responses | `quizapp-testing` |
-| Running code quality checks | `biome` |
-| Running commands in specific packages | `quizapp-monorepo` |
-| Setting up Express server | `express` |
-| Setting up linting | `biome` |
 | Setting up monorepo structure | `quizapp-monorepo` |
-| Setting up pre-commit hooks | `biome` |
-| Setting up quiz API routes | `quizapp-api` |
-| Setting up shared package | `quizapp-monorepo` |
 | Testing API endpoints | `quizapp-testing` |
-| Testing React components | `quizapp-testing` |
-| Testing Zod schemas | `quizapp-testing` |
-| Testing attempt lifecycle | `quizapp-testing` |
 | Testing domain logic | `quizapp-testing` |
-| Testing localStorage persistence | `quizapp-testing` |
-| Using shadcn/ui in QuizApp | `quizapp-ui` |
 | Using Zustand stores | `zustand-5` |
-| Validating quiz API requests | `quizapp-api` |
-| Working with Next.js routes | `nextjs-15` |
-| Working with QuizApp UI structure | `quizapp-ui` |
-| Working with quiz JSON data | `quizapp-api` |
 | Working with React components | `react-19` |
+| Working with Next.js routes | `nextjs-15` |
 | Working with Tailwind classes | `tailwind-4` |
 | Working with TypeScript types/interfaces | `typescript` |
-| Working with localStorage persistence | `quizapp-domain` |
-| Working with workspace protocol | `quizapp-monorepo` |
-| Writing Playwright E2E tests | `playwright` |
-| Writing Supertest API tests | `quizapp-testing` |
 | Writing Vitest unit tests | `quizapp-testing` |
-| Writing integration tests | `quizapp-testing` |
+| Writing Supertest API tests | `quizapp-testing` |
 | Writing tests | `quizapp-testing` |
 
 ---

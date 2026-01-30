@@ -6,13 +6,19 @@ description: >
 license: MIT
 metadata:
   author: QuizApp Team
-  version: "1.0"
+  version: "1.1"
   scope: [root]
   auto_invoke:
     - "Setting up monorepo structure"
     - "Configuring pnpm workspaces"
     - "Adding new packages to monorepo"
     - "Configuring Turborepo tasks"
+    - "Managing cross-package dependencies"
+    - "Working with workspace protocol"
+    - "Debugging workspace resolution"
+    - "Configuring Turborepo cache"
+    - "Running commands in specific packages"
+    - "Setting up shared package"
 ---
 
 # QuizApp Monorepo Skill

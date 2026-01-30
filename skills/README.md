@@ -1,152 +1,137 @@
-# QuizApp Skills Library
+# AI Agent Skills
 
-This directory contains **Agent Skills** for AI coding agents working on QuizApp.
+This directory contains **Agent Skills** following the [Agent Skills open standard](https://agentskills.io). Skills provide domain-specific patterns, conventions, and guardrails that help AI coding assistants (Claude Code, OpenCode, Cursor, etc.) understand project-specific requirements.
 
-Skills are **versioned instruction packages** that teach agents how to work correctly within this repository. They encode critical rules, architectural conventions, naming patterns, and repeatable workflows.
+## What Are Skills?
 
----
+[Agent Skills](https://agentskills.io) is an open standard format for extending AI agent capabilities with specialized knowledge. Originally developed by Anthropic and released as an open standard, it is now adopted by multiple agent products.
 
-## What Are Agent Skills?
+Skills teach AI assistants how to perform specific tasks. When an AI loads a skill, it gains context about:
 
-Agent Skills are portable, reusable documentation that:
-- Define **ALWAYS/NEVER rules** for code quality
-- Provide **code examples** for common patterns
-- Include **commands** for quick copy-paste
-- Reference **project-specific conventions**
-
-Instead of repeating long prompts, we **load a skill once** and let the agent apply it consistently.
-
-This project follows the **Agent Skills open standard**: [https://agentskills.io](https://agentskills.io)
-
----
-
-## Available Skills
-
-### Generic Skills (Foundation Layer)
-
-These skills are **cross-cutting** and apply to all packages in the monorepo:
-
-| Skill | Description | Scope |
-|-------|-------------|-------|
-| `typescript` | Strict TypeScript patterns, no `any`, explicit types | All packages |
-| `react-19` | React 19 patterns with React Compiler (no manual memoization) | Frontend |
-| `nextjs-15` | Next.js 15 App Router conventions (server vs client components) | Frontend |
-| `tailwind-4` | Tailwind CSS 4 patterns and utilities | Frontend |
-| `zod-4` | Zod 4 schema validation patterns | All packages |
-| `zustand-5` | Zustand 5 state management patterns | Frontend |
-| `ai-sdk-5` | Vercel AI SDK 5 patterns for AI chat features | Frontend |
-| `playwright` | Playwright E2E testing patterns | Testing |
-| `pytest` | pytest testing patterns for Python | Testing (if applicable) |
-| `django-drf` | Django REST Framework patterns | Backend (if applicable) |
-| `jira-task` | Creates Jira tasks following standard format | Project Management |
-| `jira-epic` | Creates Jira epics for large features | Project Management |
-| `skill-creator` | Creates new AI agent skills following Agent Skills spec | Development |
-
-**When to use:** Load these when working with the specific technology.
-
----
-
-### Project-Specific Skills (QuizApp Domain)
-
-These skills are **unique to QuizApp** and encode domain-specific patterns:
-
-| Skill | Description | Auto-Invoke When |
-|-------|-------------|------------------|
-| **`quizapp-domain`** | Quiz attempt lifecycle, sessions, localStorage persistence, learning mode, randomization | Implementing quiz domain logic, attempt lifecycle, or user state persistence |
-| **`quizapp-monorepo`** | pnpm workspaces + Turborepo setup, cross-package dependencies, task orchestration | Setting up monorepo structure, configuring workspaces, or adding new packages |
-| **`quizapp-testing`** | Vitest + Supertest patterns for unit, integration, and API tests | Writing tests, adding test coverage, or testing API endpoints |
-
-**When to use:** These are auto-invoked when performing the actions listed in the "Auto-Invoke When" column (see AGENTS.md for details).
-
----
+- Critical rules (what to always/never do)
+- Code patterns and conventions
+- Project-specific workflows
+- References to detailed documentation
 
 ## How to Use Skills
 
-### For AI Agents
-
-1. **Read AGENTS.md first** - it contains auto-invoke rules
-2. **Load skills as needed** - use the skill name to invoke
-3. **Follow patterns exactly** - skills define ALWAYS/NEVER rules
-
-Example:
-```
-I need to implement quiz attempt persistence.
-First, let me load the quizapp-domain skill.
-```
-
-### For Humans
-
-Skills are **reference documentation** for understanding:
-- How agents should implement features
-- What patterns are considered correct
-- Why certain decisions were made
-
-Skills complement:
-- `AGENTS.md` - how agents should behave
-- `docs/` - why the system is designed this way
-
----
-
-## Skill Structure
-
-Each skill follows this format:
+Skills are automatically discovered by the AI agent. To manually load a skill during a session:
 
 ```
-skills/{skill-name}/
-├── SKILL.md           # Main documentation
-├── assets/            # Templates, schemas (optional)
-├── scripts/           # Helper scripts (optional)
-└── references/        # Links to related docs (optional)
+Read skills/{skill-name}/SKILL.md
 ```
 
-**SKILL.md frontmatter:**
+## Available Skills
+
+### Generic Skills
+
+Reusable patterns for common technologies:
+
+| Skill | Description |
+|-------|-------------|
+| `typescript` | Strict TypeScript patterns, no `any`, explicit types |
+| `react-19` | React 19 patterns with React Compiler (no manual memoization) |
+| `nextjs-15` | Next.js 15 App Router conventions (server vs client components) |
+| `tailwind-4` | Tailwind CSS 4 patterns and utilities |
+| `zod-4` | Zod 4 schema validation patterns |
+| `zustand-5` | Zustand 5 state management patterns (persist, selectors, slices) |
+| `ai-sdk-5` | Vercel AI SDK 5 patterns for AI chat features |
+| `playwright` | Playwright E2E testing patterns (Page Object Model) |
+| `pytest` | pytest testing patterns (fixtures, mocking, markers) |
+| `django-drf` | Django REST Framework patterns (ViewSets, Serializers, Filters) |
+| `express` | Express.js best practices for building scalable REST APIs |
+| `biome` | Biome linter and formatter patterns for consistent code quality |
+| `jira-task` | Creates Jira tasks following standard format |
+| `jira-epic` | Creates Jira epics for large features |
+
+### QuizApp-Specific Skills
+
+Patterns tailored for QuizApp development:
+
+| Skill | Description |
+|-------|-------------|
+| `quizapp-domain` | Quiz attempt lifecycle, sessions, localStorage persistence, learning mode, randomization |
+| `quizapp-monorepo` | pnpm workspaces + Turborepo setup, cross-package dependencies, task orchestration |
+| `quizapp-testing` | Vitest + Supertest patterns for unit, integration, and API tests |
+| `quizapp-api` | Express API patterns for quiz endpoints, JSON file storage, backend conventions |
+| `quizapp-ui` | Next.js UI patterns for quiz components, shadcn/ui, frontend conventions |
+
+### Meta Skills
+
+| Skill | Description |
+|-------|-------------|
+| `skill-creator` | Create new AI agent skills following Agent Skills spec |
+
+## Directory Structure
+
+```
+skills/
+├── {skill-name}/
+│   ├── SKILL.md              # Required - main instruction and metadata
+│   ├── scripts/              # Optional - executable code
+│   ├── assets/               # Optional - templates, schemas, resources
+│   └── references/           # Optional - links to local docs
+└── README.md                 # This file
+```
+
+## Why Auto-invoke Sections?
+
+**Problem**: AI assistants (Claude, Gemini, etc.) don't reliably auto-invoke skills even when the `Trigger:` in the skill description matches the user's request. They treat skill suggestions as "background noise" and barrel ahead with their default approach.
+
+**Solution**: The `AGENTS.md` file contains an **Auto-invoke Skills** section that explicitly commands the AI: "When performing X action, ALWAYS invoke Y skill FIRST." This is a [known workaround](https://scottspence.com/posts/claude-code-skills-dont-auto-activate) that forces the AI to load skills.
+
+**Example from AGENTS.md:**
+
+| Action | Skill |
+|--------|-------|
+| Implementing quiz domain logic | `quizapp-domain` |
+| Setting up monorepo structure | `quizapp-monorepo` |
+| Writing tests | `quizapp-testing` |
+
+## Creating New Skills
+
+Use the `skill-creator` skill for guidance:
+
+```
+Read skills/skill-creator/SKILL.md
+```
+
+### Quick Checklist
+
+1. Create directory: `skills/{skill-name}/`
+2. Add `SKILL.md` with required frontmatter
+3. Add `metadata.scope` and `metadata.auto_invoke` fields
+4. Keep content concise (under 500 lines)
+5. Reference existing docs instead of duplicating
+6. Add to `AGENTS.md` skills table and auto-invoke section
+7. Test skill with AI assistant
+
+### SKILL.md Frontmatter Template
+
 ```yaml
 ---
 name: skill-name
-description: One-line description. Trigger: When to invoke.
+description: >
+  One-line description of what this skill does.
+  Trigger: When to invoke this skill.
 license: MIT
 metadata:
-  author: Author Name
+  author: QuizApp Team
   version: "1.0"
   scope: [root, frontend, backend, shared]
   auto_invoke:
     - "Action that triggers this skill"
+    - "Another action that triggers this skill"
 ---
 ```
 
----
+## Design Principles
 
-## Creating New Skills
-
-Use the `skill-creator` skill to create new skills following the standard format:
-
-```bash
-# Load skill-creator and follow the prompts
-```
-
-**When to create a new skill:**
-- Pattern is used 3+ times across the codebase
-- Workflow has multiple steps that need to be consistent
-- Convention is project-specific (not a generic pattern)
-- Domain knowledge needs to be preserved for future agents
-
-**When NOT to create a skill:**
-- Pattern is used 1-2 times (include in AGENTS.md instead)
-- Convention is generic and well-documented elsewhere
-- Trivial pattern that doesn't need enforcement
-
----
-
-## Auto-Invoke Strategy
-
-Because agents don't reliably auto-load skills by themselves, we enforce loading via **AGENTS.md Auto-Invoke sections**.
-
-**Rule:**
-> When performing X, ALWAYS load Y skill first.
-
-See `AGENTS.md` for the complete auto-invoke table.
-
----
+- **Concise**: Only include what AI doesn't already know
+- **Progressive disclosure**: Point to detailed docs, don't duplicate
+- **Critical rules first**: Lead with ALWAYS/NEVER patterns
+- **Minimal examples**: Show patterns, not tutorials
+- **Actionable**: Include copy-paste commands and code
 
 ## Skill Maintenance
 
@@ -157,6 +142,7 @@ When project conventions change:
 2. Increment `version` in frontmatter
 3. Document breaking changes in skill body
 4. Update references in `AGENTS.md`
+5. Test with AI assistant
 
 ### Deprecating Skills
 
@@ -166,14 +152,28 @@ When a skill is no longer needed:
 3. Remove from `AGENTS.md` auto-invoke table
 4. Keep file for historical reference
 
----
+## When to Create a New Skill
+
+**Create a skill when:**
+- Pattern is used 3+ times across the codebase
+- Workflow has multiple steps that need to be consistent
+- Convention is project-specific (not a generic pattern)
+- Domain knowledge needs to be preserved for future agents
+- Complex decision trees or workflows need guidance
+
+**Don't create a skill when:**
+- Pattern is used 1-2 times (include in AGENTS.md instead)
+- Convention is generic and well-documented elsewhere
+- Trivial pattern that doesn't need enforcement
+- Already covered by existing generic skills
 
 ## Resources
 
-- **Agent Skills Standard:** [https://agentskills.io](https://agentskills.io)
-- **AGENTS.md Specification:** [https://agents.md](https://agents.md)
-- **QuizApp AGENTS.md:** [/AGENTS.md](/AGENTS.md)
-- **QuizApp Documentation:** [/docs/](/docs/)
+- [Agent Skills Standard](https://agentskills.io) - Open standard specification
+- [Agent Skills GitHub](https://github.com/anthropics/skills) - Example skills
+- [Claude Code Best Practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) - Skill authoring guide
+- [QuizApp AGENTS.md](../AGENTS.md) - AI agent general rules
+- [QuizApp Documentation](../docs/) - Project documentation
 
 ---
 
