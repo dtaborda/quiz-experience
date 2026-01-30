@@ -1,0 +1,139 @@
+{
+  "id": "agent-fundamentals",
+  "title": "Agent Fundamentals",
+  "description": "Test your knowledge of AI agent basics and core concepts",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What is the primary purpose of an AI agent?",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "To replace human workers completely"
+        },
+        {
+          "id": "opt2",
+          "text": "To autonomously perform tasks and achieve goals"
+        },
+        {
+          "id": "opt3",
+          "text": "To store large amounts of data"
+        },
+        {
+          "id": "opt4",
+          "text": "To create visual interfaces"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "AI agents are designed to autonomously perform tasks and make decisions based on defined goals. They perceive their environment, process information, and take actions to achieve objectives.",
+      "conceptExplanation": "An AI agent is a software entity that acts autonomously to achieve specific goals. It perceives its environment through sensors, processes information using its knowledge base, and takes actions through actuators."
+    },
+    {
+      "id": "q2",
+      "text": "Which component is essential for an agent to interact with its environment?",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Database"
+        },
+        {
+          "id": "opt2",
+          "text": "Sensors and actuators"
+        },
+        {
+          "id": "opt3",
+          "text": "User interface"
+        },
+        {
+          "id": "opt4",
+          "text": "Cloud storage"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "Sensors allow agents to perceive their environment, while actuators enable them to take actions. These are fundamental components for any agent system.",
+      "conceptExplanation": "Agents interact with their environment through two key components: sensors (for perception) and actuators (for action). Sensors gather information about the environment, while actuators allow the agent to execute actions that change the environment."
+    },
+    {
+      "id": "q3",
+      "text": "What type of agent uses a knowledge base and inference to make decisions?",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Simple reflex agent"
+        },
+        {
+          "id": "opt2",
+          "text": "Model-based reflex agent"
+        },
+        {
+          "id": "opt3",
+          "text": "Goal-based agent"
+        },
+        {
+          "id": "opt4",
+          "text": "Knowledge-based agent"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanation": "Knowledge-based agents use a knowledge base and logical inference to reason about the world and make informed decisions. They can handle complex, uncertain situations.",
+      "conceptExplanation": "Knowledge-based agents represent information about the world using a knowledge base (KB) and use logical inference to derive new knowledge and make decisions. This approach is more flexible and powerful than simple rule-based systems."
+    },
+    {
+      "id": "q4",
+      "text": "What is the agent function in AI agent architecture?",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "A database query operation"
+        },
+        {
+          "id": "opt2",
+          "text": "A mapping from percept history to actions"
+        },
+        {
+          "id": "opt3",
+          "text": "A user interface element"
+        },
+        {
+          "id": "opt4",
+          "text": "A machine learning algorithm"
+        }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "The agent function maps the complete percept history (everything the agent has perceived) to an action. It's the abstract mathematical description of what the agent does.",
+      "conceptExplanation": "The agent function is an abstract mathematical description of an agent's behavior. It takes the entire percept history as input and produces an action as output. The agent program is the concrete implementation of this function."
+    },
+    {
+      "id": "q5",
+      "text": "Which property describes an agent that can operate without human intervention?",
+      "options": [
+        {
+          "id": "opt1",
+          "text": "Reactivity"
+        },
+        {
+          "id": "opt2",
+          "text": "Proactivity"
+        },
+        {
+          "id": "opt3",
+          "text": "Social ability"
+        },
+        {
+          "id": "opt4",
+          "text": "Autonomy"
+        }
+      ],
+      "correctOptionId": "opt4",
+      "explanation": "Autonomy is the ability of an agent to operate independently without direct human intervention. Autonomous agents can make their own decisions and control their actions.",
+      "conceptExplanation": "Autonomy means that an agent can operate independently, making its own decisions without constant human guidance. An autonomous agent has control over its internal state and actions, and can pursue its goals without needing instructions for every step."
+    }
+  ],
+  "metadata": {
+    "difficulty": "beginner",
+    "estimatedMinutes": 10,
+    "tags": ["ai-agents", "fundamentals", "architecture"]
+  },
+  "createdAt": "2026-01-30T00:00:00Z",
+  "updatedAt": "2026-01-30T00:00:00Z"
+}
