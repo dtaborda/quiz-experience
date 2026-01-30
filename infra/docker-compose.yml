@@ -1,0 +1,43 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: infra/backend.Dockerfile
+    command: >-
+      sh -c "pnpm --filter shared build && pnpm --filter backend dev"
+    env_file:
+      - ../.env
+    environment:
+      - PORT=${BACKEND_PORT:-3001}
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+    volumes:
+      - ../backend:/app/backend:cached
+      - ../shared:/app/shared:cached
+    networks:
+      - quizapp
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: infra/frontend.Dockerfile
+    command: >-
+      sh -c "pnpm --filter shared build && pnpm --filter frontend dev --hostname 0.0.0.0 --port ${FRONTEND_PORT:-3000}"
+    env_file:
+      - ../.env
+    environment:
+      - PORT=${FRONTEND_PORT:-3000}
+      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3001}
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    volumes:
+      - ../frontend:/app/frontend:cached
+      - ../shared:/app/shared:cached
+    depends_on:
+      - backend
+    networks:
+      - quizapp
+
+networks:
+  quizapp:
+    driver: bridge

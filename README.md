@@ -88,8 +88,16 @@ pnpm dev
 ### Docker
 
 ```bash
+cp .env.example .env
 docker compose -f infra/docker-compose.yml up --build
 ```
+
+When both services are running:
+
+- Frontend: http://localhost:${FRONTEND_PORT:-3000}
+- Backend: http://localhost:${BACKEND_PORT:-3001}
+
+More troubleshooting tips live in [`docs/infra.md`](docs/infra.md).
 
 ---
 
