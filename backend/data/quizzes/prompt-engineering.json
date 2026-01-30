@@ -1,0 +1,79 @@
+{
+  "id": "prompt-engineering",
+  "title": "Prompt Engineering",
+  "description": "Master the art of crafting effective prompts for AI models",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What is prompt engineering?",
+      "options": [
+        { "id": "opt1", "text": "Writing code to fix AI bugs" },
+        { "id": "opt2", "text": "Crafting instructions to guide AI model outputs" },
+        { "id": "opt3", "text": "Designing user interfaces for AI apps" },
+        { "id": "opt4", "text": "Training AI models from scratch" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "Prompt engineering is the practice of designing and optimizing input prompts to get desired outputs from AI models.",
+      "conceptExplanation": "Prompt engineering involves crafting clear, specific instructions that help AI models understand exactly what you want. Good prompts include context, examples, and clear formatting instructions."
+    },
+    {
+      "id": "q2",
+      "text": "Which technique involves showing the model examples of desired output format?",
+      "options": [
+        { "id": "opt1", "text": "Temperature tuning" },
+        { "id": "opt2", "text": "Few-shot prompting" },
+        { "id": "opt3", "text": "Token reduction" },
+        { "id": "opt4", "text": "Model fine-tuning" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "Few-shot prompting provides examples of input-output pairs to teach the model the desired format or reasoning pattern.",
+      "conceptExplanation": "Few-shot prompting is a technique where you include several examples (shots) of the task in your prompt. This helps the model understand the pattern and produce similar outputs for new inputs."
+    },
+    {
+      "id": "q3",
+      "text": "What does the 'temperature' parameter control in LLMs?",
+      "options": [
+        { "id": "opt1", "text": "The speed of response generation" },
+        { "id": "opt2", "text": "The randomness/creativity of outputs" },
+        { "id": "opt3", "text": "The length of the response" },
+        { "id": "opt4", "text": "The factual accuracy" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "Temperature controls the randomness of the model's output. Lower values (0.1) are more deterministic; higher values (0.9) are more creative.",
+      "conceptExplanation": "Temperature is a hyperparameter that controls the probability distribution over tokens. Lower temperatures make the model more conservative and predictable, while higher temperatures encourage diverse and creative outputs."
+    },
+    {
+      "id": "q4",
+      "text": "What is chain-of-thought prompting?",
+      "options": [
+        { "id": "opt1", "text": "Connecting multiple AI models in sequence" },
+        { "id": "opt2", "text": "Prompting the model to show its reasoning step-by-step" },
+        { "id": "opt3", "text": "Sending prompts through multiple API calls" },
+        { "id": "opt4", "text": "Breaking prompts into smaller chunks" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "Chain-of-thought prompting encourages the model to break down complex problems into intermediate reasoning steps.",
+      "conceptExplanation": "Chain-of-thought prompting is a technique where you explicitly ask the model to think step by step or show its work. This improves performance on complex reasoning tasks like math problems or logical puzzles."
+    },
+    {
+      "id": "q5",
+      "text": "Which is a best practice for system prompts?",
+      "options": [
+        { "id": "opt1", "text": "Make them as vague as possible" },
+        { "id": "opt2", "text": "Include clear role definition and constraints" },
+        { "id": "opt3", "text": "Never use them" },
+        { "id": "opt4", "text": "Change them randomly for each request" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "System prompts should clearly define the AI's role, capabilities, and constraints to guide consistent behavior.",
+      "conceptExplanation": "System prompts set the foundation for how an AI should behave throughout a conversation. They define the persona, tone, and boundaries. Good system prompts are specific, consistent, and aligned with the intended use case."
+    }
+  ],
+  "metadata": {
+    "difficulty": "intermediate",
+    "estimatedMinutes": 12,
+    "tags": ["prompt-engineering", "llms", "best-practices"]
+  },
+  "createdAt": "2026-01-30T00:00:00Z",
+  "updatedAt": "2026-01-30T00:00:00Z"
+}

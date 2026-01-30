@@ -7,10 +7,22 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const QUIZ_DIR = path.join(__dirname, '../../data/quizzes')
 
+// Simple in-memory cache
+let quizCache: Quiz[] | null = null
+let cacheTimestamp = 0
+const CACHE_TTL_MS = 60_000 // 1 minute
+
 /**
- * Get all quizzes from JSON files
+ * Get all quizzes from JSON files with caching
  */
 export async function getAllQuizzes(): Promise<Quiz[]> {
+  const now = Date.now()
+
+  // Return cached data if fresh
+  if (quizCache && now - cacheTimestamp < CACHE_TTL_MS) {
+    return quizCache
+  }
+
   try {
     const files = await fs.readdir(QUIZ_DIR)
     const jsonFiles = files.filter((f) => f.endsWith('.json'))
@@ -23,10 +35,14 @@ export async function getAllQuizzes(): Promise<Quiz[]> {
       }),
     )
 
+    // Update cache
+    quizCache = quizzes
+    cacheTimestamp = now
+
     return quizzes
   } catch (error) {
     console.error('Error loading quizzes:', error)
-    return []
+    return quizCache ?? []
   }
 }
 

@@ -1,0 +1,79 @@
+{
+  "id": "ai-testing-validation",
+  "title": "AI Testing & Validation",
+  "description": "Advanced techniques for testing, validating, and ensuring quality in AI systems",
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What is the primary challenge in testing AI systems compared to traditional software?",
+      "options": [
+        { "id": "opt1", "text": "They run too slowly" },
+        { "id": "opt2", "text": "Their probabilistic and non-deterministic nature" },
+        { "id": "opt3", "text": "They use too much memory" },
+        { "id": "opt4", "text": "They cannot be containerized" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "AI systems are inherently probabilistic, meaning the same input can produce different outputs. This non-determinism makes traditional testing approaches insufficient.",
+      "conceptExplanation": "Unlike traditional software with deterministic logic, AI models produce outputs based on learned patterns and probabilities. Testing must account for variability, confidence scores, and statistical measures rather than just pass/fail checks."
+    },
+    {
+      "id": "q2",
+      "text": "What is 'adversarial testing' in AI?",
+      "options": [
+        { "id": "opt1", "text": "Testing when users are angry" },
+        { "id": "opt2", "text": "Testing with inputs designed to fool or break the model" },
+        { "id": "opt3", "text": "Testing without documentation" },
+        { "id": "opt4", "text": "Testing only edge cases" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "Adversarial testing involves crafting inputs specifically designed to trick the model or expose its weaknesses.",
+      "conceptExplanation": "Adversarial testing examines how AI systems respond to intentionally challenging or deceptive inputs. This helps identify vulnerabilities like prompt injection attacks, edge case failures, or bias amplification before deployment."
+    },
+    {
+      "id": "q3",
+      "text": "Which metric measures how often a classification model correctly identifies positive cases?",
+      "options": [
+        { "id": "opt1", "text": "Accuracy" },
+        { "id": "opt2", "text": "Precision" },
+        { "id": "opt3", "text": "Recall" },
+        { "id": "opt4", "text": "F1 Score" }
+      ],
+      "correctOptionId": "opt3",
+      "explanation": "Recall (sensitivity) measures the proportion of actual positives that are correctly identified by the model.",
+      "conceptExplanation": "Recall = True Positives / (True Positives + False Negatives). High recall means the model catches most positive cases, but may have more false positives. It's crucial when missing a positive has high cost (e.g., disease detection)."
+    },
+    {
+      "id": "q4",
+      "text": "What is 'regression testing' for AI models?",
+      "options": [
+        { "id": "opt1", "text": "Testing if the model can predict housing prices" },
+        { "id": "opt2", "text": "Verifying new versions don't break previously working functionality" },
+        { "id": "opt3", "text": "Testing model training speed" },
+        { "id": "opt4", "text": "Checking GPU utilization" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "Regression testing ensures that updates or retraining don't degrade performance on previously handled cases.",
+      "conceptExplanation": "AI regression testing involves running a baseline test suite against new model versions to detect performance degradation. This is critical because model updates, even with fresh data, can unexpectedly break previously correct behaviors."
+    },
+    {
+      "id": "q5",
+      "text": "What is a 'golden dataset' in AI testing?",
+      "options": [
+        { "id": "opt1", "text": "The most expensive dataset" },
+        { "id": "opt2", "text": "A curated, validated reference set for consistent evaluation" },
+        { "id": "opt3", "text": "A dataset that makes the model perform perfectly" },
+        { "id": "opt4", "text": "A dataset containing only successful outputs" }
+      ],
+      "correctOptionId": "opt2",
+      "explanation": "A golden dataset is a carefully curated and validated set of test cases that serve as the benchmark for model evaluation.",
+      "conceptExplanation": "Golden datasets are high-quality, representative test sets with known correct outputs. They're used consistently across model versions to measure improvement or detect regressions. They should cover diverse scenarios including edge cases and adversarial examples."
+    }
+  ],
+  "metadata": {
+    "difficulty": "advanced",
+    "estimatedMinutes": 15,
+    "tags": ["ai-testing", "validation", "metrics", "quality-assurance"]
+  },
+  "createdAt": "2026-01-30T00:00:00Z",
+  "updatedAt": "2026-01-30T00:00:00Z"
+}

@@ -7,12 +7,12 @@
 Deliver a complete Express API serving quiz data from JSON files with robust middleware and tests.
 
 ## Tasks
-- [ ] Expand quiz dataset under `backend/data/quizzes/` (minimum 3 quizzes).
-- [ ] Enhance services with caching helpers and validation via `shared` schemas.
-- [ ] Add middleware (request logging, validation errors, not-found handler).
-- [ ] Implement routes/controllers aligned with `skills/quizapp-api` contract.
-- [ ] Write Vitest + Supertest coverage for services and HTTP endpoints.
-- [ ] Provide `pnpm --filter backend dev/test` docs in `backend/README.md`.
+- [x] Expand quiz dataset under `backend/data/quizzes/` (minimum 3 quizzes).
+- [x] Enhance services with caching helpers and validation via `shared` schemas.
+- [x] Add middleware (request logging, validation errors, not-found handler).
+- [x] Implement routes/controllers aligned with `skills/quizapp-api` contract.
+- [x] Write Vitest + Supertest coverage for services and HTTP endpoints.
+- [x] Provide `pnpm --filter backend dev/test` docs in `backend/README.md`.
 
 ## Deliverables
 - Fully functional `/api/health`, `/api/quizzes`, `/api/quizzes/:quizId` endpoints.
