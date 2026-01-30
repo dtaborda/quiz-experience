@@ -28,12 +28,14 @@ This document defines the **final stack**, the **monorepo strategy**, how we run
 * **TanStack Query (React Query)** — standardized fetching, caching, loading/error states.
 * **Zustand** — minimal global state (session + attempt metadata).
 * **localStorage** — browser persistence for session, active attempts, and history (explicitly acceptable for this challenge).
+* **Biome** - Linting & Formatting
 
 ### Backend
 
 * **Node.js + TypeScript + Express** — simple REST API boundary.
 * **Quiz data as JSON files** — stored under `backend/data/quizzes/*.json` and served by API.
 * **No database** — user state persists in localStorage (browser). Backend acts as data provider + contract boundary.
+* **Biome** - Linting & Formatting
 
 ### Testing
 
