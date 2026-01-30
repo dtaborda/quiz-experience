@@ -7,11 +7,11 @@
 Establish consistent tooling (pnpm, Turbo, lint/format) and baseline documentation for the workspace.
 
 ## Tasks
-- [ ] Verify `pnpm-workspace.yaml`, `turbo.json`, and root `package.json` scripts.
-- [ ] Align Biome configs across `shared`, `backend`, `frontend` (indentation, import order, lint rules).
-- [ ] Ensure each package has `tsconfig.json`, `biome.json`, and consistent scripts (`dev`, `build`, `test`, `lint`, `format`).
-- [ ] Update `README.md` with workspace overview + commands table.
-- [ ] Confirm `pnpm install` + `pnpm dev` works after alignment.
+- [x] Verify `pnpm-workspace.yaml`, `turbo.json`, and root `package.json` scripts.
+- [x] Align Biome configs across `shared`, `backend`, `frontend` (indentation, import order, lint rules).
+- [x] Ensure each package has `tsconfig.json`, `biome.json`, and consistent scripts (`dev`, `build`, `test`, `lint`, `format`).
+- [x] Update `README.md` with workspace overview + commands table.
+- [x] Confirm `pnpm install` + `pnpm dev` works after alignment.
 
 ## Deliverables
 - Standardized configs (tsconfig, Biome) in every package.

@@ -74,6 +74,17 @@ pnpm install
 pnpm dev
 ```
 
+### Workspace commands
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Run every package's dev server through Turborepo |
+| `pnpm build` / `pnpm test` / `pnpm lint` / `pnpm format` | Execute repo-wide tasks via Turbo |
+| `pnpm --filter frontend dev` | Start the Next.js dev server only |
+| `pnpm --filter backend dev` | Start the Express API watcher (`tsx`) |
+| `pnpm --filter <pkg> test` | Run Vitest (or Supertest) for a specific package |
+| `pnpm --filter <pkg> lint` / `format` | Run Biome in a single package |
+
 ### Docker
 
 ```bash
@@ -93,4 +104,3 @@ This project is built using an **AI-first, agent-driven development model**.
 📚 Detailed documentation:
 - Agent architecture & skills: **[docs/agents-and-skills.md](docs/agents-and-skills.md)**
 - Agent instructions: `AGENTS.md`
-
