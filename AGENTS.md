@@ -46,6 +46,7 @@ Use these skills for detailed patterns on-demand:
 | `quizapp-ui` | Next.js UI patterns for quiz components, shadcn/ui, frontend conventions | [SKILL.md](skills/quizapp-ui/SKILL.md) |
 | `quizapp-docs` | QuizApp documentation workflow, formatting, and Mintlify previews | [SKILL.md](skills/quizapp-docs/SKILL.md) |
 | `quizapp-pr` | Pull request workflow, template requirements, and CI expectations | [SKILL.md](skills/quizapp-pr/SKILL.md) |
+| `quizapp-commit` | Conventional Commit workflow and guardrails for QuizApp | [SKILL.md](skills/quizapp-commit/SKILL.md) |
 | `devbox` | Devbox environment guardrails for reproducible setups | [SKILL.md](skills/devbox/SKILL.md) |
 | `infra` | Docker & infra guardrails for QuizApp runtime | [SKILL.md](skills/infra/SKILL.md) |
 
@@ -99,6 +100,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Running pnpm/turbo tasks inside Devbox | `devbox` |
 | Writing or reorganizing documentation | `quizapp-docs` |
 | Creating or reviewing PRs | `quizapp-pr` |
+| Creating git commits / preparing commit message | `quizapp-commit` |
 | Setting up Express server | `express` |
 | Setting up linting | `biome` |
 | Setting up monorepo structure | `quizapp-monorepo` |
