@@ -44,6 +44,10 @@ Use these skills for detailed patterns on-demand:
 | `quizapp-testing` | Vitest + Supertest patterns for unit, integration, and API tests | [SKILL.md](skills/quizapp-testing/SKILL.md) |
 | `quizapp-api` | Express API patterns for quiz endpoints, JSON file storage, backend conventions | [SKILL.md](skills/quizapp-api/SKILL.md) |
 | `quizapp-ui` | Next.js UI patterns for quiz components, shadcn/ui, frontend conventions | [SKILL.md](skills/quizapp-ui/SKILL.md) |
+| `quizapp-docs` | QuizApp documentation workflow, formatting, and Mintlify previews | [SKILL.md](skills/quizapp-docs/SKILL.md) |
+| `quizapp-pr` | Pull request workflow, template requirements, and CI expectations | [SKILL.md](skills/quizapp-pr/SKILL.md) |
+| `devbox` | Devbox environment guardrails for reproducible setups | [SKILL.md](skills/devbox/SKILL.md) |
+| `infra` | Docker & infra guardrails for QuizApp runtime | [SKILL.md](skills/infra/SKILL.md) |
 
 ### Auto-Invoke Skills
 
@@ -91,9 +95,15 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Mocking API responses | `quizapp-testing` |
 | Running code quality checks | `biome` |
 | Running commands in specific packages | `quizapp-monorepo` |
+| Setting up Devbox environment | `devbox` |
+| Running pnpm/turbo tasks inside Devbox | `devbox` |
+| Writing or reorganizing documentation | `quizapp-docs` |
+| Creating or reviewing PRs | `quizapp-pr` |
 | Setting up Express server | `express` |
 | Setting up linting | `biome` |
 | Setting up monorepo structure | `quizapp-monorepo` |
+| Creating/Updating infra Dockerfiles or compose stacks | `infra` |
+| Building Docker workflows for the monorepo | `infra` |
 | Setting up pre-commit hooks | `biome` |
 | Setting up quiz API routes | `quizapp-api` |
 | Setting up shared package | `quizapp-monorepo` |
