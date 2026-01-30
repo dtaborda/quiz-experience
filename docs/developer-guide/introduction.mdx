@@ -1,0 +1,191 @@
+---
+title: 'Introduction to developing in QuizApp'
+---
+
+Thanks for your interest in contributing to QuizApp!
+
+QuizApp is a monorepo that powers our learning experience across frontend, backend, and shared contracts. This guide highlights how to get started and where you can have the most impact.
+
+<Warning>
+Maintainers review every proposal to ensure it aligns with the roadmap, user outcomes, and technical guardrails before merging.
+</Warning>
+
+## Contributing to QuizApp
+
+### Start with the Product Context
+Understanding the learner journey keeps contributions aligned with QuizApp's mission. Read through the foundational docs before picking up work.
+
+<Columns cols={3}>
+  <Card title="Use Cases" icon="book" href="/docs/use-cases">
+    Learn how quiz attempts, learning mode, and history views should behave end-to-end.
+  </Card>
+  <Card title="Architecture" icon="diagram-project" href="/docs/architecture">
+    Review the monorepo layout, data flow between packages, and key decisions.
+  </Card>
+  <Card title="Wireframes" icon="pen-ruler" href="/docs/wireframes">
+    Align UI contributions with the official wireframes and UX conventions.
+  </Card>
+</Columns>
+
+Every package also ships an `AGENTS.md` file and purpose-built Skills under `skills/`. When you touch a feature, load the relevant skill (e.g., `quizapp-ui` for frontend, `quizapp-api` for backend) so that humans and AI contributors follow the same playbook.
+
+### Find Work in the Backlog
+Open issues and discussions live in GitHub. Filter by labels such as `good first issue`, `help wanted`, or package-specific tags to discover tasks that match your experience level.
+
+<Columns cols={2}>
+  <Card title="Good First Issue" icon="github" href="https://github.com/quizapphq/quiz-experience/issues?q=is%3Aissue+label%3A%22good+first+issue%22">
+    Self-contained changes ideal for first-time contributors.
+  </Card>
+  <Card title="Help Wanted" icon="github" href="https://github.com/quizapphq/quiz-experience/issues?q=is%3Aissue+label%3A%22help+wanted%22">
+    Larger efforts that benefit from extra reviewers or co-owners.
+  </Card>
+</Columns>
+
+### Where You Can Contribute
+QuizApp is constantly evolving. Here are the most common contribution lanes:
+
+<Columns cols={3}>
+  <Card title="Frontend" icon="window" href="/frontend">
+    Next.js 15 app router screens, shadcn/ui components, Zustand stores, and TanStack Query hooks.
+  </Card>
+  <Card title="Backend" icon="server" href="/backend">
+    Express routes, quiz data loading, validation, and JSON-based persistence helpers.
+  </Card>
+  <Card title="Shared Schemas" icon="code" href="/shared">
+    Zod 4 schemas and strict TypeScript definitions that keep contracts aligned across packages.
+  </Card>
+  <Card title="Testing" icon="vial" href="/docs/testing">
+    Vitest unit tests, Supertest API suites, and Playwright E2E coverage.
+  </Card>
+  <Card title="Documentation" icon="book-open" href="/docs">
+    Keep reference material, runbooks, and Skill guides accurate.
+  </Card>
+  <Card title="Infra" icon="gear" href="/infra">
+    Docker, Devbox, and Turborepo workflows that improve developer ergonomics.
+  </Card>
+</Columns>
+
+### Collaborate Early
+- Leave a note on the issue you are taking to avoid duplicate work.
+- Share WIP branches or draft PRs for larger refactors.
+- Use GitHub Discussions or the team Slack channel to unblock domain questions (quiz attempt lifecycle, learning mode, etc.).
+
+## Setting up your development environment
+
+### Prerequisites
+
+Before contributing, make sure you have:
+
+- Git 2.40+.
+- Node.js 20 (LTS) or later.
+- `pnpm` 9.x (QuizApp is a pnpm + Turborepo workspace).
+- Optional: [Devbox](https://www.jetpack.io/devbox/docs/) if you prefer reproducible shells (see the `devbox` Skill for details).
+
+### Forking the QuizApp Repository
+
+Fork `quizapphq/quiz-experience` so you can push feature branches. GitHub's [forking guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) walks through the process.
+
+### Cloning Your Fork
+
+```bash
+git clone https://github.com/<your-github-user>/quiz-experience
+cd quiz-experience
+git remote add upstream https://github.com/quizapphq/quiz-experience
+```
+
+### Installing Dependencies
+
+```bash
+pnpm install
+```
+
+This bootstraps every workspace (frontend, backend, shared, infra tooling) and wires up Turborepo tasks.
+
+### Running the Dev Servers
+
+```bash
+pnpm dev            # start everything via Turborepo
+pnpm --filter frontend dev
+pnpm --filter backend dev
+```
+
+Use package filters when you only need a specific surface area.
+
+### Quality Gates
+
+Run these locally before opening a pull request:
+
+```bash
+pnpm lint
+pnpm test
+pnpm format
+```
+
+- Biome enforces formatting and import order.
+- Vitest + Supertest cover unit/integration tests.
+- Playwright provides E2E (run via `pnpm --filter frontend test:e2e` when relevant).
+- Turbo caches results, so reruns stay fast.
+
+### AI-Driven Contributions
+
+- Load the Skill that matches your task (e.g., `quizapp-ui`, `quizapp-domain`). Skills encode the conventions that AGENTS enforce.
+- Each package exposes an `AGENTS.md`—read it before modifying files in that package.
+- Never bypass lint/test commands; AI and human contributors are held to the same Definition of Done.
+
+### Dependency Management
+
+- Frontend/backed/shared dependencies live in their respective `package.json` files.
+- Cross-package types or utilities belong in `shared/` and should be re-exported intentionally.
+- Use `pnpm --filter ... add <package>` to scope new dependencies to a single workspace.
+
+### Repository Folder Structure
+
+```
+quiz-experience/
+├── frontend/   # Next.js 15 + React 19 app (UI, stores, hooks, lib)
+├── backend/    # Express API, quiz data loaders, middleware
+├── shared/     # Zod schemas, domain types, shared utilities
+├── infra/      # Docker, Devbox, runtime orchestration
+├── skills/     # AI Agent skill specs and auto-invoke metadata
+├── docs/       # Documentation site (this guide lives here)
+├── package.json
+├── pnpm-workspace.yaml
+├── turbo.json
+└── AGENTS.md
+```
+
+## Working Effectively in Each Package
+
+- **Frontend (`quizapp-ui`, `nextjs-15`, `react-19`, `tailwind-4`)**: Use App Router server components by default; only add `use client` when you need browser APIs. Zustand stores live in `frontend/stores/` and persist quiz attempts to localStorage according to the domain rules in `quizapp-domain`.
+- **Backend (`quizapp-api`, `express`)**: Keep routes thin. Validate payloads with shared Zod schemas and reuse the file-based quiz loaders from `backend/data/`.
+- **Shared (`typescript`, `zod-4`)**: Schemas and types define contracts between packages. Update tests under `shared/` whenever schemas evolve.
+- **Testing (`quizapp-testing`, `playwright`)**: Favor deterministic fixtures. When exercising attempt lifecycles, persist data the same way the frontend does so history pages remain accurate.
+
+## Pull Requests
+
+1. Use Conventional Commits (e.g., `feat(frontend): add learning mode banner`).
+2. Include context, screenshots (for UI), and reproduction steps in the PR body.
+3. Confirm lint, tests, and required build steps are green before requesting review.
+4. Reference the issue you are closing with `Closes #123`.
+5. Keep PRs scoped—split unrelated changes into separate branches when possible.
+
+## Testing Changes from Another Branch
+
+When you need to verify someone else's branch:
+
+```bash
+git fetch upstream <branch-name>
+git checkout -b review/<branch-name> upstream/<branch-name>
+pnpm install
+pnpm dev
+```
+
+This keeps your fork in sync without polluting main.
+
+## Contribution Appreciation
+
+We celebrate contributors with public shout-outs, leaderboard mentions, and occasional swag drops. Share your merged PR in the community Slack to get featured.
+
+---
+
+Welcome aboard. Dive into the docs, pick an issue, and help us build the best quiz-driven learning experience for AI engineers.

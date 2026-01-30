@@ -1,0 +1,87 @@
+---
+title: 'Contributing to Documentation'
+---
+
+QuizApp lives and dies by great documentation. The docs folder is the single source of truth for our architecture, quiz domain rules, UX flows, and AI agent playbooks. This page shows how to keep it healthy.
+
+## Documentation Structure
+
+| Location | Purpose |
+| --- | --- |
+| `docs/use-cases.md` | End-to-end learner scenarios, acceptance criteria, and domain rules. Start here before changing behavior. |
+| `docs/architecture.md` | System overview for the monorepo (frontend, backend, shared, infra). Align new diagrams and data flows with this reference. |
+| `docs/wireframes.yaml` | Source of truth for QuizApp UI layouts. When visuals shift, update the YAML + add screenshots to PRs. |
+| `docs/developer-guide/introduction.mdx` | Onboarding, contribution flow, Definition of Done, Skill expectations. Every new doc should link back when relevant. |
+| `docs/developer-guide/documentation.mdx` | (This page) Writing workflow, formatting guidance, and local preview steps. |
+| `docs/developer-guide/ai-skills.mdx` & `skills/` | AI agent system overview + Skill specs. Keep these updated any time the docs change structure. |
+
+## Content Workflow
+
+1. **Understand the change** – read the related issues, use cases, and AGENTS instructions so the doc tells the same story as the code.
+2. **Decide the location** – reuse existing files when possible; only create new sections if the topic does not belong anywhere else.
+3. **Cross-link aggressively** – tie updates back to `docs/use-cases.md`, `docs/architecture.md`, or Skill references so contributors can navigate quickly.
+4. **Review voice & accuracy** – keep tone instructional, avoid marketing language, and verify commands or code snippets locally before publishing.
+
+## AI-Driven Documentation
+
+The [Introduction guide](/developer-guide/introduction#ai-driven-contributions) explains how Skills keep AI agents in sync. When updating docs:
+
+- Update the relevant Skill reference files (for example `skills/quizapp-docs/references/documentation-docs.md`) so agents can discover the new content.
+- Reflect any new conventions in `AGENTS.md` if they affect the whole repo.
+- Mention which Skills contributors should load inside your doc when the context is non-obvious (e.g., “Use the `quizapp-ui` Skill for UI walkthroughs”).
+
+## Local Development
+
+<Steps>
+  <Step title="Install Dependencies">
+    ```bash
+    pnpm install
+    ```
+    Run once at the repo root so shared linting and formatting tools are available while you edit docs.
+  </Step>
+
+  <Step title="Install Mintlify CLI">
+    QuizApp's docs run on [Mintlify](https://www.mintlify.com/docs). Install the CLI globally:
+
+    ```bash
+    npm install -g mintlify
+    ```
+  </Step>
+
+  <Step title="Preview Documentation Locally">
+    From the repo root (or inside `docs/`), start the dev server:
+
+    ```bash
+    mint dev
+    ```
+
+    Mintlify serves the site at http://localhost:3000 with hot reload so you can verify MDX components (<Info>, <Warning>, <Columns/>) render properly.
+  </Step>
+
+  <Step title="Make Documentation Changes">
+    Edit `.mdx`/`.md` files directly under `docs/`. Favor short sections, Titles in Title Case, and include fenced code blocks for commands. When navigation needs to change, follow the process in `docs/developer-guide/ai-skills.mdx` to keep Skills in sync.
+  </Step>
+
+  <Step title="Submit Changes">
+    Run `pnpm lint`, `pnpm format`, and `pnpm test` (if your doc references new code). Then follow the PR flow described in `/developer-guide/introduction#pull-requests`.
+  </Step>
+</Steps>
+
+## Formatting Essentials
+
+- Use Title Case for headings (`## Updating Quiz History`).
+- Prefer present tense and second person (“Run `pnpm dev`” instead of “You should run…”).
+- Wrap commands in fenced code blocks with a language hint (` ```bash `).
+- Use Mintlify callouts (`<Info>`, `<Warning>`, `<Steps>`) for emphasis instead of plain bold text.
+- Keep paragraphs short (3–4 sentences) so the content is scannable inside Mintlify.
+
+## Documentation Checklist
+
+- [ ] Linked to the relevant use case, architecture section, or Skill instructions.
+- [ ] Verified any commands or scripts locally.
+- [ ] Added screenshots, diagrams, or Mermaid snippets when they improve understanding.
+- [ ] Updated Skill reference files if the doc structure moved.
+- [ ] Mentioned required Skills or AGENT notes when AI contributors must load them.
+- [ ] Included PR context following `docs/developer-guide/introduction.mdx`.
+
+Your contributions keep QuizApp transparent for every engineer, designer, and AI agent. Thank you for keeping the knowledge base sharp! 🧠⚡️
